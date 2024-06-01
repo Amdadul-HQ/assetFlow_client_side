@@ -88,7 +88,7 @@ const About = () => {
           </p>
           <Link>
             <button className="bg-violet-500 py-2 px-7 text-white text-xl font-medium mt-4">
-            See Packages
+            See Pricing
             </button>
           </Link>
         </div>
