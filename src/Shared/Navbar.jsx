@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isHr] = useHrManager()
   const [isEmployee] = useEmployee()
   return (
-    <header className=" container mx-auto bg-[linear-gradient(90deg,rgba(0,0,0,0.7),rgba(0,0,0,0.4))]">
+    <header className="container mx-auto bg-slate-600">
       <nav className="flex container fixed z-10 mx-auto justify-between py-5 ">
         <h1 className="text-4xl font-semibold">
           Asset<span className="text-violet-500">Flow</span>
@@ -25,7 +25,7 @@ const Navbar = () => {
           className={`${
             currentLocation !== "/"
               ? "text-black flex items-center gap-x-10 text-lg font-medium"
-              : "text-white flex gap-x-10 text-lg font-medium items-center"
+              : "text-slate-700 flex gap-x-10 text-lg font-medium items-center"
           } `}
         >
           <ul className="flex gap-x-10 ">
@@ -47,7 +47,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/assetlist"
             >
               Asset List
             </NavLink>
@@ -57,7 +57,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/addasset"
             >
               Add An Asset
             </NavLink>
@@ -67,7 +67,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/allrequest"
             >
               All Request
             </NavLink>
@@ -77,7 +77,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/myemployee"
             >
               My Employee list
             </NavLink>
@@ -87,7 +87,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/addemployee"
             >
               Add An Employee
             </NavLink></> : isEmployee ? <>
