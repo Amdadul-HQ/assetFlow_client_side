@@ -2,6 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import useHrManager from "../Hooks/useHrManager";
+import useEmployee from "../Hooks/useEmployee";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -13,6 +14,7 @@ const Navbar = () => {
     });
   };
   const [isHr] = useHrManager()
+  const [isEmployee] = useEmployee()
   return (
     <header className=" container mx-auto bg-[linear-gradient(90deg,rgba(0,0,0,0.7),rgba(0,0,0,0.4))]">
       <nav className="flex container fixed z-10 mx-auto justify-between py-5 ">
@@ -88,7 +90,38 @@ const Navbar = () => {
               to="/joinasemployee"
             >
               Add An Employee
-            </NavLink></> : <><NavLink
+            </NavLink></> : isEmployee ? <>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              My Asset
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              My Team
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              Request for an Asset
+            </NavLink>
+            </> : <><NavLink
               className={({ isActive }) =>
                 isActive
                   ? "text-violet-500"
