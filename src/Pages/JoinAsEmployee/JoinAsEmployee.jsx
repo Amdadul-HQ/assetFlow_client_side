@@ -1,24 +1,66 @@
+import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
+import { imageUpload } from "../../Utility";
 import bg from "../../assets/about.jpg";
+import axios from "axios";
 const JoinAsEmployee = () => {
-  const { signInGoogle } = useAuth();
+  const { user ,signInGoogle , createUser , updataNamePhoto , logOut } = useAuth();
 
   const handleGoogleSignIn = () => {
     signInGoogle()
       .then((res) => {
-        console.log(res);
+        toast.success('Login Successful')
+        saveUser(user)
       })
       .catch((err) => {
-        console.log(err.message);
+        toast.error(err.message)
       });
   };
+    // Save user data in DB
+    const saveUser = async user => {
+      const normalUser = {
+        email:user?.email,
+        name:user?.displayName,
+        image:user?.photoURL,
+        role:'user',
+        status:'Available'
+      }
+      const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/user`,normalUser)
+      return data
+    }
   const handleSignUp = async (e) => {
     e.preventDefault()
     const form = e.target
     const name = form.name.value;
     const email = form.email.value;
-    const photo = form.photo.files[0];
     const password = form.password.value;
+    const photo = form.photo.files[0];
+    try{
+      const imageUrl = await imageUpload(photo)
+      const currentUser = {
+        email:email,
+        name:name,
+        image:imageUrl,
+        role:'user',
+        status:'Available'
+      }
+        createUser(email,password)
+        .then(()=>{
+            updataNamePhoto(name,imageUrl)
+            .then(() => {
+                toast.success('User Created Successful')
+            })
+        })
+        .catch(err=> {
+            toast.error(err.message)
+        })
+        const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/user`,currentUser)
+        form.reset()
+        logOut()
+    }
+    catch(err){
+        toast.error(err.message)
+    }
   };
 
   return (
@@ -96,6 +138,7 @@ const JoinAsEmployee = () => {
                 Full Name
               </label>
               <input
+                required
                 id="name"
                 name="name"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
@@ -110,6 +153,7 @@ const JoinAsEmployee = () => {
                 Photo
               </label>
               <input
+              required
                 id="photo"
                 name="photo"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
@@ -124,6 +168,7 @@ const JoinAsEmployee = () => {
                 Email Address
               </label>
               <input
+              required
                 id="LoggingEmailAddress"
                 name="email"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
@@ -148,6 +193,7 @@ const JoinAsEmployee = () => {
               </div>
 
               <input
+              required
                 id="loggingPassword"
                 name="password"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
