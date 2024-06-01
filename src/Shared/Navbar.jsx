@@ -13,7 +13,7 @@ const Navbar = () => {
             <NavLink to='/joinasemployee'>Join As Employee</NavLink>
             <NavLink to='/joinashr'>Join As HR Manager</NavLink>
           </ul>
-          <NavLink>Login</NavLink>
+          <NavLink to='/login'>Login</NavLink>
         </div>
       </nav>
     </header>

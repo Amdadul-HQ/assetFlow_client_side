@@ -4,6 +4,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import HomePage from "../Pages/HomePage/HomePage";
 import JoinAsEmployee from "../Pages/JoinAsEmployee/JoinAsEmployee";
 import JoinAsHR from "../Pages/JoinAsHR/JoinAsHR";
+import LoginPage from "../Pages/LoginPage/LoginPage";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path:'/joinashr',
                 element:<JoinAsHR/>
+            },
+            {
+                path:'/login',
+                element:<LoginPage/>
             }
         ]
     }
