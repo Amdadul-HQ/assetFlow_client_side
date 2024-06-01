@@ -1,10 +1,62 @@
+import React, { useRef, useState } from "react";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+import "./styles.css";
+import employeebg from "../../assets/employee.png";
+import hrbg from '../../assets/hr.png'
+// import required modules
+import { Navigation } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
-    return (
-        <section>
-            
-        </section>
-    );
+  return (
+    <section>
+      <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+        <SwiperSlide>
+          <div
+            style={{
+              background: `url(${employeebg})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+            className="min-h-screen bg-blue-300 w-full flex"
+          >
+            <div className="max-w-[600px] flex flex-col mt-48 ml-14">
+            <h1 className="text-5xl font-bold leading-[60px]">Employee Onboarding & <span className="text-violet-500">Asset Management</span></h1>
+            <p className="text-base mt-4 text-justify">Simplify the onboarding process for new hires and ensure all resources are assigned. Track and manage employee use of company assets, from laptops to supplies. Save time, improve accountability, and keep your workforce equipped for success.</p>
+            <Link>
+              <button className="bg-violet-500 py-2 px-7 text-white text-xl font-medium mt-4">Join As Employee</button>
+            </Link>
+            </div>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div
+          style={{
+            background: `linear-gradient(90deg,rgba(0,0,0,0.0),rgba(0,0,0,0.4)),url(${hrbg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+           className="min-h-screen bg-blue-300 w-full flex">
+            <div className="max-w-[600px] flex flex-col mt-48 ml-14">
+            <h1 className="text-5xl font-bold leading-[60px]">Track Employee Assets <span className="text-violet-500">Efficiently</span></h1>
+            <p className="text-base mt-4 text-justify">The AssetFlow application empowers HR professionals like you to Track Employee Assets Efficiently. Our user-friendly platform streamlines the process of assigning, tracking, and managing all company equipment and supplies, including laptops, phones, furniture, and office supplies.</p>
+            <Link>
+              <button className="bg-violet-500 py-2 px-7 text-white text-xl font-medium mt-4">Join As HR Manager</button>
+            </Link>
+            </div>
+          </div>
+        </SwiperSlide>
+      </Swiper>
+    </section>
+  );
 };
 
 export default Banner;

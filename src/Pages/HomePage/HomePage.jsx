@@ -1,9 +1,14 @@
+import About from "../../Component/About/About";
+import Banner from "../../Component/Banner/Banner";
+import Packages from "../../Component/Packages/Packages";
 
 const HomePage = () => {
     return (
-        <div>
-            
-        </div>
+        <main>
+            <Banner/>
+            <About/>
+            <Packages/>
+        </main>
     );
 };
 
