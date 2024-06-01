@@ -2,32 +2,29 @@ import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import { imageUpload } from "../../Utility";
 import bg from "../../assets/about.jpg";
-import axios from "axios";
+import useAxiosCommon from "../../Hooks/useAxiosCommon";
 const JoinAsEmployee = () => {
-  const { user ,signInGoogle , createUser , updataNamePhoto , logOut } = useAuth();
+  const { signInGoogle , createUser , updataNamePhoto , logOut } = useAuth();
+  const axiosCommon = useAxiosCommon()
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     signInGoogle()
-      .then((res) => {
+      .then( async (res) => {
         toast.success('Login Successful')
-        saveUser(user)
+        const userDetails = {
+          email:res?.user?.email,
+          name:res?.user?.displayName,
+          image:res?.user?.photoURL,
+          role:'user',
+          status:'Available'
+        }
+        const {data} = await axiosCommon.put('/user',userDetails)
       })
       .catch((err) => {
         toast.error(err.message)
       });
   };
-    // Save user data in DB
-    const saveUser = async user => {
-      const normalUser = {
-        email:user?.email,
-        name:user?.displayName,
-        image:user?.photoURL,
-        role:'user',
-        status:'Available'
-      }
-      const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/user`,normalUser)
-      return data
-    }
+  
   const handleSignUp = async (e) => {
     e.preventDefault()
     const form = e.target
@@ -54,7 +51,7 @@ const JoinAsEmployee = () => {
         .catch(err=> {
             toast.error(err.message)
         })
-        const {data} = await axios.put(`${import.meta.env.VITE_API_URL}/user`,currentUser)
+        const {data} = await axiosCommon.put('/user',currentUser)
         form.reset()
         logOut()
     }

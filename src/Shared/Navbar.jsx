@@ -1,30 +1,130 @@
 import { NavLink, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
+import useHrManager from "../Hooks/useHrManager";
 
 const Navbar = () => {
-  const {user,logOut} = useAuth()
-  const location = useLocation()
-  const currentLocation = location.pathname
+  const { user, logOut } = useAuth();
+  const location = useLocation();
+  const currentLocation = location.pathname;
   const handleLogout = () => {
-    logOut()
-    .then(res => {
-      toast.success('Log out Successful')
-    })
-  }
+    logOut().then((res) => {
+      toast.success("Log out Successful");
+    });
+  };
+  const [isHr] = useHrManager()
   return (
     <header className=" container mx-auto bg-[linear-gradient(90deg,rgba(0,0,0,0.7),rgba(0,0,0,0.4))]">
       <nav className="flex container fixed z-10 mx-auto justify-between py-5 ">
-        <h1 className="text-4xl font-semibold">Asset<span className="text-violet-500">Flow</span></h1>
-        <div className={`${currentLocation !== '/' ? 'text-black flex items-center gap-x-10 text-lg font-medium' : 'text-white flex gap-x-10 text-lg font-medium items-center'} `}>
+        <h1 className="text-4xl font-semibold">
+          Asset<span className="text-violet-500">Flow</span>
+        </h1>
+        <div
+          className={`${
+            currentLocation !== "/"
+              ? "text-black flex items-center gap-x-10 text-lg font-medium"
+              : "text-white flex gap-x-10 text-lg font-medium items-center"
+          } `}
+        >
           <ul className="flex gap-x-10 ">
-            <NavLink className={({isActive})=> isActive ? 'text-violet-500': 'hover:text-violet-500 transition-all duration-300'} to='/'>Home</NavLink>
-            <NavLink className={({isActive})=> isActive ? 'text-violet-500': 'hover:text-violet-500 transition-all duration-300'} to='/joinasemployee'>Join As Employee</NavLink>
-            <NavLink className={({isActive})=> isActive ? 'text-violet-500': 'hover:text-violet-500 transition-all duration-300'} to='/joinashr'>Join As HR Manager</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/"
+            >
+              Home
+            </NavLink>
+            {
+              user && isHr === true ? <>
+              <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              Asset List
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              Add An Asset
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              All Request
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              My Employee list
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              Add An Employee
+            </NavLink></> : <><NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinasemployee"
+            >
+              Join As Employee
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "text-violet-500"
+                  : "hover:text-violet-500 transition-all duration-300"
+              }
+              to="/joinashr"
+            >
+              Join As HR Manager
+            </NavLink></>
+            }
+            
           </ul>
-          {
-            user && user ? <button onClick={handleLogout} className="hover:text-violet-500" >Log out</button> : <NavLink className={({isActive})=> isActive ? 'text-violet-500': 'hover:text-violet-500'} to='/login'>Login</NavLink>
-          }
+          {user && user ? (
+            <button onClick={handleLogout} className="hover:text-violet-500">
+              Log out
+            </button>
+          ) : (
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-violet-500" : "hover:text-violet-500"
+              }
+              to="/login"
+            >
+              Login
+            </NavLink>
+          )}
         </div>
       </nav>
     </header>

@@ -1,13 +1,22 @@
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosCommon from "../../Hooks/useAxiosCommon";
 
 const LoginPage = () => {
   const { signInGoogle, signIn } = useAuth();
-
+    const axiosCommon = useAxiosCommon()
   const handleGoogleSignIn = () => {
     signInGoogle()
-      .then((res) => {
-        toast.success("Login Successful");
+      .then(async (res) => {
+        toast.success('Login Successful')
+        const userDetails = {
+          email:res?.user?.email,
+          name:res?.user?.displayName,
+          image:res?.user?.photoURL,
+          role:'user',
+          status:'Available'
+        }
+        const {data} = await axiosCommon.put('/user',userDetails)
       })
       .catch((err) => {
         toast.error(err.message);
