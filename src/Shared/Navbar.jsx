@@ -97,7 +97,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/myasset"
             >
               My Asset
             </NavLink>
@@ -107,7 +107,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/myteam"
             >
               My Team
             </NavLink>

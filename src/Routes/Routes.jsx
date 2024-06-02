@@ -13,6 +13,8 @@ import AddEmployeePage from "../Pages/HrManagerPages/AddEmployeePage/AddEmployee
 import UpdateAsset from "../Pages/HrManagerPages/UpdateAsset/UpdateAsset";
 import axios from "axios";
 import RequestForAsset from "../Pages/EmployeePages/RequestForAsset/RequestForAsset";
+import MyAsset from "../Pages/EmployeePages/MyAsset/MyAsset";
+import MyTeam from "../Pages/EmployeePages/MyTeam/MyTeam";
 
 const router = createBrowserRouter([
     {
@@ -65,6 +67,14 @@ const router = createBrowserRouter([
             {
                 path:'/requestasset',
                 element:<RequestForAsset/>
+            },
+            {
+                path:'/myasset',
+                element:<MyAsset/>
+            },
+            {
+                path:'/myteam',
+                element:<MyTeam/>
             }
         ]
     }

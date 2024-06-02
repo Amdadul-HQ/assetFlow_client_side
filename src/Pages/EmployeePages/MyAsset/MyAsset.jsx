@@ -1,49 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { GoGitPullRequest } from "react-icons/go";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import useAuth from "../../../Hooks/useAuth";
 
-const RequestForAsset = () => {
-  const { user } = useAuth();
+const MyAsset = () => {
   const axiosSecure = useAxiosSecure();
-  const [isShowModal, setIsShowModal] = useState(false);
-  const { data: employee } = useQuery({
-    queryKey: ["employeedata", user?.email],
+
+  const { user } = useAuth();
+  const { data } = useQuery({
+    queryKey: ["myasset", user?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/userdetails/${user?.email}`);
+      const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}`);
       return data;
     },
   });
-  const hremail = employee?.hremail;
-  const { data: asset } = useQuery({
-    queryKey: ["assets", hremail],
-    queryFn: async () => {
-      const { data } = await axiosSecure.get(`/assets/${hremail}`);
-      return data;
-    },
-  });
-  const handleAssetRequest = async (item) => {
-    console.log(item);
-    const requestAsset = {
-      productName: item?.productName,
-      productType: item?.productType,
-      productQuantity: item?.productQuantity,
-      productImageUrl: item?.productImageUrl,
-      assetHolder: item?.assetHolder,
-      addedDate: item?.addedDate,
-      requestDate: new Date(),
-      email: user?.email,
-      name: user?.displayName,
-      status: "Requested",
-    };
-    const { data } = axiosSecure.post("/requestasset", requestAsset);
-    if (data) {
-      console.log(data);
-      toast.success("Request Successful");
-    }
-  };
+  const handleAssetRequest = () => {};
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <section className="container px-4 mx-auto pt-20">
@@ -72,7 +42,7 @@ const RequestForAsset = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-            {asset && asset.length}
+            {data && data.length}
           </span>
         </div>
 
@@ -85,7 +55,7 @@ const RequestForAsset = () => {
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        className="py-3.5 px-4 text-left rtl:text-right dark:text-gray-400"
                       >
                         <div className="flex items-center gap-x-3">
                           <span>Product Image</span>
@@ -93,7 +63,7 @@ const RequestForAsset = () => {
                       </th>
                       <th
                         scope="col"
-                        className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        className="py-3.5 px-4 text-left rtl:text-right dark:text-gray-400"
                       >
                         <div className="flex items-center gap-x-3">
                           <span>Product Name</span>
@@ -101,22 +71,22 @@ const RequestForAsset = () => {
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        className="px-4 py-3.5 text-left rtl:text-right dark:text-gray-400"
                       >
                         <button className="flex items-center gap-x-2">
-                          <span>Product Quantity</span>
+                          <span>Product Requested Date</span>
                         </button>
                       </th>
 
                       <th
                         scope="col"
-                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        className="px-4 py-3.5 text-left rtl:text-right dark:text-gray-400"
                       >
-                        Product Added Date
+                        Product Approve Date
                       </th>
                       <th
                         scope="col"
-                        className="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                        className=" py-3.5 text-left rtl:text-right dark:text-gray-400"
                       >
                         <button className="flex items-center gap-x-2">
                           <span>Product Type</span>
@@ -148,13 +118,14 @@ const RequestForAsset = () => {
                           </svg>
                         </button>
                       </th>
+                      <th>Product Status</th>
 
-                      <th>Action</th>
+                      <th className="text-left pl-14">Action</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {asset &&
-                      asset.map((item) => (
+                    {data &&
+                      data.map((item) => (
                         <tr key={item._id}>
                           <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex items-center gap-x-3">
@@ -171,68 +142,56 @@ const RequestForAsset = () => {
                             {item.productName}
                           </td>
                           <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                            <div className=" w-fit px-3 flex items-center  py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
-                              {item.productQuantity > 0
-                                ? item.productQuantity
-                                : ""}
-                              <p className="">
-                                {item.productQuantity > 0
-                                  ? "Available"
-                                  : "Out of Stock"}
-                              </p>
-                            </div>
+                            {item.requestDate}
                           </td>
 
                           <td className="px-4 py-4 text-sm whitespace-nowrap">
-                            {item.addedDate}
+                            {item.approvalDate ? item.approvalDate : 'N/A'}
                           </td>
-                          <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                            <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
+                          <td className="py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                            <div className="inline-flex uppercase font-medium items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
                               {item.productType}
                             </div>
                           </td>
                           <td className="px-4 py-4 text-sm whitespace-nowrap">
                             <div className="flex items-center gap-x-2">
-                              <button
-                                onClick={() => {
-                                  
-                                    handleAssetRequest(item)
-                                  
-                                  // setIsShowModal(true);
-                                  // document
-                                  //   .getElementById("my_modal_4")
-                                  //   .showModal();
-                                }}
-                                className="px-3 cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
-                              >
-                                Request <GoGitPullRequest />
-                              </button>
-                              {/* <div className={isShowModal ? "block" : "hidden"}>
-                                <dialog id="my_modal_4" className="modal">
-                                  <div className="modal-box w-11/12 max-w-5xl">
-                                    <h3 className="font-bold text-lg">
-                                      Add a Note
-                                    </h3>
-                                    <textarea
-                                      className="textarea textarea-bordered w-full h-28 mt-3"
-                                      placeholder="Additional notes"
-                                    ></textarea>
-                                    <div className="modal-action">
-                                      <form method="dialog">
-                                        <button
-                                          onClick={() =>
-                                            handleAssetRequest(item)
-                                          }
-                                          className="px-3 btn cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
-                                        >
-                                          Request <GoGitPullRequest />{" "}
-                                        </button>
-                                      </form>
-                                    </div>
-                                  </div>
-                                </dialog>
-                              </div> */}
+                              <p className="px-3 text-center ml-4 py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">
+                                {item.status}
+                              </p>
                             </div>
+                          </td>
+                          <td className="space-x-2">
+                            {
+                                item.productType == 'returnable' && <button>
+                                <div className="inline-flex items-center px-3 py-1 text-black rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                                  <svg
+                                    width="12"
+                                    height="12"
+                                    viewBox="0 0 12 12"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M4.5 7L2 4.5M2 4.5L4.5 2M2 4.5H8C8.53043 4.5 9.03914 4.71071 9.41421 5.08579C9.78929 5.46086 10 5.96957 10 6.5V10"
+                                      stroke="#667085"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+  
+                                  <h2 className="text-sm font-normal">Return</h2>
+                                </div>
+                              </button>
+                            }
+                            <button className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+
+                                        <h2 className="text-sm font-normal">Cancel</h2>
+                                    </button>
+
                           </td>
                         </tr>
                       ))}
@@ -338,4 +297,4 @@ const RequestForAsset = () => {
   );
 };
 
-export default RequestForAsset;
+export default MyAsset;
