@@ -2,17 +2,62 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AiOutlineUserDelete } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 const MyEmployeeListPage = () => {
     const {user} = useAuth()
     const axiosSecure = useAxiosSecure()
-    const {data} = useQuery({
+    const {data,refetch} = useQuery({
         queryKey:['myemployee',user?.email],
         queryFn:async()=>{
             const {data} = await axiosSecure.get(`/companyemployee/${user?.email}`)
             return data
         }
     })
+    const handleDelete = (id) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+          });
+          swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axiosSecure.delete(`/employee/${id}`)
+            .then(() => {
+              // console.log(res.data);
+              swalWithBootstrapButtons.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
+              refetch()
+            })
+            .catch(error => {
+              console.log(error.message);
+            })
+              
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire({
+                title: "Cancelled",
+                text: "Your imaginary file is safe :)",
+                icon: "error"
+              });
+            }
+          });
+    }
     return (
         <section className="min-h-[calc(100vh-330px)]">
             <section className="container px-4 mx-auto pt-20">
@@ -81,7 +126,7 @@ const MyEmployeeListPage = () => {
                                     </td>
                                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                                         <div className="flex items-center gap-x-2">
-                                            <button  className="px-3 cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">Delete From Team<AiOutlineUserDelete /></button>
+                                            <button onClick={()=>handleDelete(item._id,item)} className="px-3 cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60">Delete From Team<AiOutlineUserDelete /></button>
                                         </div>
                                     </td>
                                 </tr>)

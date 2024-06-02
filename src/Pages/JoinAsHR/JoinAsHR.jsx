@@ -2,7 +2,6 @@ import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import { imageUpload } from "../../Utility";
 import bg from "../../assets/about.jpg";
-import axios from "axios";
 import useAxiosCommon from "../../Hooks/useAxiosCommon";
 const JoinAsHR = () => {
     const {createUser,updataNamePhoto,logOut} = useAuth()

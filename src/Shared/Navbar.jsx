@@ -117,7 +117,7 @@ const Navbar = () => {
                   ? "text-violet-500"
                   : "hover:text-violet-500 transition-all duration-300"
               }
-              to="/joinasemployee"
+              to="/requestasset"
             >
               Request for an Asset
             </NavLink>
