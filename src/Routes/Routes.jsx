@@ -10,6 +10,8 @@ import AssetListPage from "../Pages/HrManagerPages/AssetListPage/AssetListPage";
 import AllRequestPage from "../Pages/HrManagerPages/AllRequestPage/AllRequestPage";
 import MyEmployeeListPage from "../Pages/HrManagerPages/MyEmployeeListPage/MyEmployeeListPage";
 import AddEmployeePage from "../Pages/HrManagerPages/AddEmployeePage/AddEmployeePage";
+import UpdateAsset from "../Pages/HrManagerPages/UpdateAsset/UpdateAsset";
+import axios from "axios";
 
 const router = createBrowserRouter([
     {
@@ -54,7 +56,9 @@ const router = createBrowserRouter([
                 element:<AddEmployeePage/>
             },
             {
-                
+                path:'/updateasset/:id',
+                element: <UpdateAsset/>,
+                // loader:async({params})=> await axios.get(`${import.meta.env.VITE_API_URL}/asset/${params.id}`)
             }
         ]
     }

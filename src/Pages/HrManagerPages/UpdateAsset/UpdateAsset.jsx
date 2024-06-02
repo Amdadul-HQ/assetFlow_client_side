@@ -1,11 +1,21 @@
-import useAuth from "../../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
 import { imageUpload } from "../../../Utility";
 
-const AddAnAssetPage = () => {
-    const {user} = useAuth()
+const UpdateAsset = () => {
     const axiosSecure = useAxiosSecure()
-    const handleSubmit =async e => {
+    const {id} = useParams()
+    const {user} = useAuth()
+    const {data} = useQuery({
+        queryKey:['assetDetails',id],
+        queryFn:async()=>{
+            const {data} = await axiosSecure.get(`/asset/${id}`)
+            return data
+        }
+    })
+    const handleSubmit = async e => {
         e.preventDefault()
         const form = e.target;
         const productName = form.productName.value;
@@ -28,16 +38,16 @@ const AddAnAssetPage = () => {
                 assetHolder,
                 addedDate
             }
-
-            const {data} = await axiosSecure.post('/addasset',assetDetails)
+            console.log(assetDetails);
+            const {data} = await axiosSecure.patch(`/updateasset/${id}`,assetDetails)
             // console.log(data);
         }
         catch(err){
             console.log(err);
         }
-    }   
-  return (
-    <section className="min-h-[calc(100vh-330px)]">
+    }
+    return (
+        <section className="min-h-[calc(100vh-330px)]">
       <div className="pt-20">
         <section className="bg-white dark:bg-gray-900">
           <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
@@ -48,13 +58,14 @@ const AddAnAssetPage = () => {
 
               <div className="flex items-center justify-center mt-6">
                 <p className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white">
-                  Add An Asset
+                  Update An Asset
                 </p>
               </div>
 
               <div className="relative flex items-center mt-8">
                 <input
                 required
+                    defaultValue={data?.productName}
                   name="productName"
                   type="text"
                   className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -63,6 +74,7 @@ const AddAnAssetPage = () => {
               </div>
               <div className='space-y-1 text-sm mt-5'>
               <select
+              defaultValue={data?.productType}
                 required
                 className='w-full px-4 py-3 border focus:border-blue-400 rounded-md'
                 placeholder='Product Type'
@@ -92,11 +104,12 @@ const AddAnAssetPage = () => {
                   />
                 </svg>
 
-                <input required id="dropzone-file" type="file" name="productPhoto"  />
+                <input defaultValue={data?.productImageUrl} required  id="dropzone-file" type="file" name="productPhoto"  />
               </label>
 
               <div className="relative flex items-center mt-6">
                 <input
+                defaultValue={data?.productQuantity}
                   required
                   type="number"
                   name="productQuantity"
@@ -107,7 +120,7 @@ const AddAnAssetPage = () => {
 
               <div className="mt-6">
                 <button type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-violet-500 rounded-lg hover:bg-violet-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                  Add Asset
+                    Update Asset
                 </button>
               </div>
             </form>
@@ -115,7 +128,7 @@ const AddAnAssetPage = () => {
         </section>
       </div>
     </section>
-  );
+    );
 };
 
-export default AddAnAssetPage;
+export default UpdateAsset;
