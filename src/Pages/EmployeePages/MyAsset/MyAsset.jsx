@@ -1,19 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const MyAsset = () => {
   const axiosSecure = useAxiosSecure();
 
   const { user } = useAuth();
-  const { data } = useQuery({
-    queryKey: ["myasset", user?.email],
-    queryFn: async () => {
-      const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}`);
-      return data;
-    },
-  });
-  const handleAssetRequest = () => {};
+  const { data ,refetch } = useQuery({
+      queryKey: ["myasset", user?.email],
+      queryFn: async () => {
+          const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}`);
+          return data;
+        },
+    });
+    const handleCancelAssetRequest = async (id) => {
+      
+      const {data} = await axiosSecure.delete(`/assetsofemploye/${id}`)
+      if(data.deletedCount> 0){
+          refetch()
+          toast.success('Request Cancel Successful')
+      }
+      
+    };
+    const handleReturnAsset = async (id) => {
+        const {data} = await axiosSecure.delete(`/returnasset/${id}`)
+      
+            toast.success('Asset Return Successful')
+            refetch()
+        
+    }
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <section className="container px-4 mx-auto pt-20">
@@ -162,7 +178,7 @@ const MyAsset = () => {
                           </td>
                           <td className="space-x-2">
                             {
-                                item.productType == 'returnable' && <button>
+                                item.productType == 'returnable' && <button onClick={()=>handleReturnAsset(item._id)}>
                                 <div className="inline-flex items-center px-3 py-1 text-black rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
                                   <svg
                                     width="12"
@@ -184,7 +200,7 @@ const MyAsset = () => {
                                 </div>
                               </button>
                             }
-                            <button className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                            <button onClick={()=>handleCancelAssetRequest(item._id)} className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>

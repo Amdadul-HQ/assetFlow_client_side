@@ -27,6 +27,7 @@ const RequestForAsset = () => {
   const handleAssetRequest = async (item) => {
     console.log(item);
     const requestAsset = {
+      _id:item?._id,
       productName: item?.productName,
       productType: item?.productType,
       productQuantity: item?.productQuantity,
@@ -38,11 +39,9 @@ const RequestForAsset = () => {
       name: user?.displayName,
       status: "Requested",
     };
-    const { data } = axiosSecure.post("/requestasset", requestAsset);
-    if (data) {
-      console.log(data);
+    const { data } = await axiosSecure.post("/requestasset", requestAsset);
       toast.success("Request Successful");
-    }
+    
   };
   return (
     <section className="min-h-[calc(100vh-330px)]">

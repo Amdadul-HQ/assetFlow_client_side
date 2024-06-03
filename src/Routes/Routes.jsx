@@ -15,6 +15,7 @@ import axios from "axios";
 import RequestForAsset from "../Pages/EmployeePages/RequestForAsset/RequestForAsset";
 import MyAsset from "../Pages/EmployeePages/MyAsset/MyAsset";
 import MyTeam from "../Pages/EmployeePages/MyTeam/MyTeam";
+import PayMentPage from "../Pages/PayMentPage/PayMentPage";
 
 const router = createBrowserRouter([
     {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
             {
                 path:'/myteam',
                 element:<MyTeam/>
+            },
+            {
+                path:'/payment',
+                element:<PayMentPage/>
             }
         ]
     }

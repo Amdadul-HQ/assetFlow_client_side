@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { imageUpload } from "../../../Utility";
@@ -11,7 +12,7 @@ const AddAnAssetPage = () => {
         const productName = form.productName.value;
         const productType = form.productType.value;
         const productImage = form.productPhoto.files[0]
-        const productQuantity = form.productQuantity.value;
+        const productQuantity = parseInt(form.productQuantity.value);
         const assetHolder = {
             name:user?.displayName,
             email:user?.email,
@@ -31,6 +32,7 @@ const AddAnAssetPage = () => {
 
             const {data} = await axiosSecure.post('/addasset',assetDetails)
             // console.log(data);
+            toast.success('Asset Added Successful')
         }
         catch(err){
             console.log(err);
