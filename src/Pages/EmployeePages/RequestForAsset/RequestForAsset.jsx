@@ -24,7 +24,6 @@ const RequestForAsset = () => {
     },
   });
   const handleAssetRequest = async (item) => {
-    console.log(item);
     const requestAsset = {
       _id:item?._id,
       productName: item?.productName,
@@ -34,6 +33,8 @@ const RequestForAsset = () => {
       assetHolder: item?.assetHolder,
       addedDate: item?.addedDate,
       requestDate: new Date(),
+      requestMonth: new Date().getMonth(),
+      requestYear: new Date().getFullYear(),
       email: user?.email,
       name: user?.displayName,
       status: "Requested",

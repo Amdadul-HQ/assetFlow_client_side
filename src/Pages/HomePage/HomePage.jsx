@@ -1,16 +1,22 @@
 import About from "../../Component/About/About";
 import Banner from "../../Component/Banner/Banner";
 import Packages from "../../Component/Packages/Packages";
-// import PendingRequestSectionForEmployee from "../EmployeePages/PendingRequestSectionForEmployee/PendingRequestSectionForEmployee";
+import useEmployee from "../../Hooks/useEmployee";
+import useHrManager from "../../Hooks/useHrManager";
+import ContactHr from "../ConteactHrPage/ContactHr";
+import EmployeeHomePage from "../EmployeePages/EmployeeHomePage/EmployeeHomePage";
 import HomePageForHr from "../HomePageForHr/HomePageForHr";
 
 const HomePage = () => {
+    const [isHr] = useHrManager()
+    const [isEmployee] = useEmployee()
     return (
         <main>
             <Banner/>
-            {/* <PendingRequestSectionForEmployee/> */}
-            <HomePageForHr/>
+            {isEmployee && <EmployeeHomePage/>}
+            {isHr && <HomePageForHr/>}
             <About/>
+            {!isEmployee && !isHr ? <ContactHr/> : ''}
             <Packages/>
         </main>
     );

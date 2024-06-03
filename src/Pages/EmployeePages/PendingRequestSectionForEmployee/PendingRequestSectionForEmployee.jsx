@@ -12,13 +12,12 @@ const PendingRequestSectionForEmployee = () => {
             return data;
         }
     })
-    if(data && data.length == 0)return <section className="min-h-[calc(100vh-300px)] flex justify-center items-center"><h1 className="text-5xl font-bold text-center my-32">Contact with Your HR Manager</h1></section>
     return (
         <section className="container px-4 mx-auto pt-20">
         <div className="text-center">
         <h1 className="text-5xl font-bold">Pending Request</h1>
         <p className="text-xl max-w-[800px] mt-3 mx-auto">
-          You can your pending request from here
+          You can see your pending request from here
         </p>
         </div>
           <div className="flex items-center gap-x-3">
@@ -126,7 +125,7 @@ const PendingRequestSectionForEmployee = () => {
                               {item.productName}
                             </td>
                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              {item.requestDate}
+                              {new Date(item.requestDate).toDateString()}
                             </td>
   
                             <td className="px-4 py-4 text-sm whitespace-nowrap">
