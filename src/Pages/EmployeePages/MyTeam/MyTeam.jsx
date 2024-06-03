@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { AiOutlineUserDelete } from "react-icons/ai";
 
 const MyTeam = () => {
     const {user} = useAuth()

@@ -2,10 +2,21 @@ import toast from "react-hot-toast";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { imageUpload } from "../../../Utility";
+import { useQuery } from "@tanstack/react-query";
 
 const AddAnAssetPage = () => {
     const {user} = useAuth()
     const axiosSecure = useAxiosSecure()
+    const {data:mydetails} =useQuery({
+      queryKey:['mydata',user?.email],
+      queryFn:async()=>{
+          const {data} = await axiosSecure.get(`/userdetails/${user?.email}`)
+          return data
+      }
+  })
+  const companyName = mydetails?.companyName;
+  const companyLogoUrl = mydetails?.companyLogoUrl;
+
     const handleSubmit =async e => {
         e.preventDefault()
         const form = e.target;
@@ -26,12 +37,13 @@ const AddAnAssetPage = () => {
                 productType,
                 productQuantity,
                 productImageUrl,
+                companyName,
+                companyLogoUrl,
                 assetHolder,
                 addedDate
             }
 
             const {data} = await axiosSecure.post('/addasset',assetDetails)
-            // console.log(data);
             toast.success('Asset Added Successful')
         }
         catch(err){

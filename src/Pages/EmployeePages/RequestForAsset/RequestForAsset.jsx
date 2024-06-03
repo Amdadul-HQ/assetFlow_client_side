@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 const RequestForAsset = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [isShowModal, setIsShowModal] = useState(false);
   const { data: employee } = useQuery({
     queryKey: ["employeedata", user?.email],
     queryFn: async () => {
@@ -196,6 +195,7 @@ const RequestForAsset = () => {
                                 onClick={() => {
                                   
                                     handleAssetRequest(item)
+                                  //   setCurrentRow(item)
                                   
                                   // setIsShowModal(true);
                                   // document
@@ -220,7 +220,7 @@ const RequestForAsset = () => {
                                       <form method="dialog">
                                         <button
                                           onClick={() =>
-                                            handleAssetRequest(item)
+                                            handleAssetRequest(currentRow)
                                           }
                                           className="px-3 btn cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
                                         >
