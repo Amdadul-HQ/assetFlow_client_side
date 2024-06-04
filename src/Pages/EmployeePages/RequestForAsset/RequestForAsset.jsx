@@ -4,6 +4,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { GoGitPullRequest } from "react-icons/go";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const RequestForAsset = () => {
   const { user } = useAuth();
@@ -45,6 +46,11 @@ const RequestForAsset = () => {
   };
   return (
     <section className="min-h-[calc(100vh-330px)]">
+      <Helmet>
+        <title>
+          Request For Assets
+        </title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-20">
         <div>
           <div></div>
@@ -193,45 +199,15 @@ const RequestForAsset = () => {
                           <td className="px-4 py-4 text-sm whitespace-nowrap">
                             <div className="flex items-center gap-x-2">
                               <button
+                                disabled={item.productQuantity===0}
                                 onClick={() => {
                                   
                                     handleAssetRequest(item)
-                                  //   setCurrentRow(item)
-                                  
-                                  // setIsShowModal(true);
-                                  // document
-                                  //   .getElementById("my_modal_4")
-                                  //   .showModal();
                                 }}
                                 className="px-3 cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
                               >
                                 Request <GoGitPullRequest />
                               </button>
-                              {/* <div className={isShowModal ? "block" : "hidden"}>
-                                <dialog id="my_modal_4" className="modal">
-                                  <div className="modal-box w-11/12 max-w-5xl">
-                                    <h3 className="font-bold text-lg">
-                                      Add a Note
-                                    </h3>
-                                    <textarea
-                                      className="textarea textarea-bordered w-full h-28 mt-3"
-                                      placeholder="Additional notes"
-                                    ></textarea>
-                                    <div className="modal-action">
-                                      <form method="dialog">
-                                        <button
-                                          onClick={() =>
-                                            handleAssetRequest(currentRow)
-                                          }
-                                          className="px-3 btn cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
-                                        >
-                                          Request <GoGitPullRequest />{" "}
-                                        </button>
-                                      </form>
-                                    </div>
-                                  </div>
-                                </dialog>
-                              </div> */}
                             </div>
                           </td>
                         </tr>

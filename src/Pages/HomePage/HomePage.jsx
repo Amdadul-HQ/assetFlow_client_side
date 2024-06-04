@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import About from "../../Component/About/About";
 import Banner from "../../Component/Banner/Banner";
 import Packages from "../../Component/Packages/Packages";
@@ -12,6 +13,11 @@ const HomePage = () => {
     const [isEmployee] = useEmployee()
     return (
         <main>
+            <Helmet>
+                <title>
+                    AssetFlow | Home
+                </title>
+            </Helmet>
             {!isHr && !isEmployee ? <Banner/> : <></>}
             {isEmployee && <EmployeeHomePage/>}
             {isHr && <HomePageForHr/>}

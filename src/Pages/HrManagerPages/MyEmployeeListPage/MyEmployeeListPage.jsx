@@ -3,6 +3,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AiOutlineUserDelete } from "react-icons/ai";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const MyEmployeeListPage = () => {
   const { user } = useAuth();
@@ -63,6 +64,11 @@ const MyEmployeeListPage = () => {
   };
   return (
     <section className="min-h-[calc(100vh-330px)]">
+      <Helmet>
+        <title>
+          My Employees
+        </title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-20">
         <div className="flex items-center gap-x-3">
           <h2 className="text-lg font-medium text-gray-800 dark:text-white">

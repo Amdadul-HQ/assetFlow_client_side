@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosCommon from "../../Hooks/useAxiosCommon";
+import { Helmet } from "react-helmet-async";
 
 const LoginPage = () => {
   const { signInGoogle, signIn } = useAuth();
@@ -39,6 +40,11 @@ const LoginPage = () => {
 };
   return (
     <section className="bg-white dark:bg-gray-900">
+      <Helmet>
+        <title>
+          AssetFlow | Login
+        </title>
+      </Helmet>
       <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
         <form onSubmit={handleLogIn} className="w-full max-w-md">
           <h1 className="text-2xl text-center font-semibold">

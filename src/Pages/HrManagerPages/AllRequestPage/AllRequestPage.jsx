@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const AllRequestPage = () => {
   const { user } = useAuth();
@@ -29,6 +30,11 @@ const AllRequestPage = () => {
   }
   return (
     <section className="min-h-[calc(100vh-330px)]">
+      <Helmet>
+        <title>
+          All Requests
+        </title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-20">
         <div>
           <div></div>

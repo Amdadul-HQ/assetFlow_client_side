@@ -3,6 +3,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { imageUpload } from "../../../Utility";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const AddAnAssetPage = () => {
     const {user} = useAuth()
@@ -53,6 +54,11 @@ const AddAnAssetPage = () => {
     }   
   return (
     <section className="min-h-[calc(100vh-330px)]">
+      <Helmet>
+        <title>
+          Add Assets
+        </title>
+      </Helmet>
       <div className="pt-20">
         <section className="bg-white dark:bg-gray-900">
           <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">

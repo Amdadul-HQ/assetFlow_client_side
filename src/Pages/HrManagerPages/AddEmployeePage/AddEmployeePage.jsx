@@ -4,6 +4,7 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import useAuth from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const AddEmployeePage = () => {
   const axiosSecure = useAxiosSecure();
@@ -63,6 +64,11 @@ const AddEmployeePage = () => {
 
   return (
     <section className="min-h-[calc(100vh-330px)]">
+      <Helmet>
+        <title>
+          Add Employee
+        </title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-20">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-x-3">

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const MyTeam = () => {
     const {user} = useAuth()
@@ -24,6 +25,11 @@ const MyTeam = () => {
 
     return (
         <section className="min-h-[calc(100vh-330px)]">
+            <Helmet>
+                <title>
+                    My Team
+                </title>
+            </Helmet>
             <section className="container px-4 mx-auto pt-20">
     <div className="flex items-center gap-x-3">
         <h2 className="text-lg font-medium text-gray-800 dark:text-white">Total </h2>

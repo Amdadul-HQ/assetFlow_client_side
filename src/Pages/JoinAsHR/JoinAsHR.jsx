@@ -4,6 +4,7 @@ import { imageUpload } from "../../Utility";
 import bg from "../../assets/about.jpg";
 import useAxiosCommon from "../../Hooks/useAxiosCommon";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 const JoinAsHR = () => {
     const navigate = useNavigate()
     const {createUser,updataNamePhoto,logOut} = useAuth()
@@ -53,6 +54,11 @@ const JoinAsHR = () => {
     }
   return (
     <section className="min-h-[calc(100vh-330px)] py-32">
+      <Helmet>
+        <title>
+          AssetFlow | Join As HR
+        </title>
+      </Helmet>
       <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
         <div
           style={{
