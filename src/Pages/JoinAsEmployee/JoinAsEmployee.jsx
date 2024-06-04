@@ -3,7 +3,9 @@ import useAuth from "../../Hooks/useAuth";
 import { imageUpload } from "../../Utility";
 import bg from "../../assets/about.jpg";
 import useAxiosCommon from "../../Hooks/useAxiosCommon";
+import { useNavigate } from "react-router-dom";
 const JoinAsEmployee = () => {
+  const navigate = useNavigate()
   const { signInGoogle , createUser , updataNamePhoto , logOut } = useAuth();
   const axiosCommon = useAxiosCommon()
 
@@ -56,6 +58,7 @@ const JoinAsEmployee = () => {
         const {data} = await axiosCommon.put('/user',currentUser)
         form.reset()
         logOut()
+        navigate('/login')
     }
     catch(err){
         toast.error(err.message)

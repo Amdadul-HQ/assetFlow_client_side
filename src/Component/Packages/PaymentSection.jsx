@@ -3,10 +3,12 @@ import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckOutForm from "../Form/CheckOutForm";
+import useAuth from "../../Hooks/useAuth";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_KEY);
 
 const PaymentSection = () => {
   const [info, setInfo] = useState({});
+  const {user} = useAuth()
   const packageDetails = [
     {
       id: 1,
@@ -57,7 +59,7 @@ const PaymentSection = () => {
                   Maximum {item.employeeNumber} employees
                 </p>
 
-                <button
+                <button disabled={!user}
                   onClick={() => {
                     setInfo(item);
                     document.getElementById("my_modal_3").showModal();

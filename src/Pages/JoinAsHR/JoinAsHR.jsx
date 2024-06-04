@@ -3,7 +3,9 @@ import useAuth from "../../Hooks/useAuth";
 import { imageUpload } from "../../Utility";
 import bg from "../../assets/about.jpg";
 import useAxiosCommon from "../../Hooks/useAxiosCommon";
+import { useNavigate } from "react-router-dom";
 const JoinAsHR = () => {
+    const navigate = useNavigate()
     const {createUser,updataNamePhoto,logOut} = useAuth()
     const axiosCommon = useAxiosCommon()
     const handelSubmit = async e => {
@@ -25,7 +27,8 @@ const JoinAsHR = () => {
                 companyName,
                 companyLogoUrl,
                 imageUrl,
-                role:'hr'
+                role:'hr',
+                teamMember:0
             }
             createUser(email,password)
         .then(async()=>{
@@ -36,6 +39,7 @@ const JoinAsHR = () => {
             const {data} = await axiosCommon.put('/user',hrDetails)
             form.reset()
             logOut()
+            navigate('/login')
         })
         .catch(err=> {
            return toast.error(err.message)

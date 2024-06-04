@@ -14,7 +14,7 @@ const MyEmployeeListPage = () => {
       return data;
     },
   });
-  const handleDelete = (id) => {
+  const handleDelete =async (id) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -35,8 +35,8 @@ const MyEmployeeListPage = () => {
       .then((result) => {
         if (result.isConfirmed) {
           axiosSecure
-            .delete(`/employee/${id}`)
-            .then(() => {
+          .delete(`/employee/${id}`)
+          .then(async () => {
               // console.log(res.data);
               swalWithBootstrapButtons.fire({
                 title: "Deleted!",
@@ -44,6 +44,7 @@ const MyEmployeeListPage = () => {
                 icon: "success",
               });
               refetch();
+              const {data} = await axiosSecure.patch(`/updateteamcount/${user?.email}`)
             })
             .catch((error) => {
               console.log(error.message);
@@ -69,7 +70,7 @@ const MyEmployeeListPage = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-            {data?.length} users
+            {data?.length} Employee
           </span>
         </div>
 

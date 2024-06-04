@@ -12,12 +12,12 @@ const HomePage = () => {
     const [isEmployee] = useEmployee()
     return (
         <main>
-            <Banner/>
+            {!isHr && !isEmployee ? <Banner/> : <></>}
             {isEmployee && <EmployeeHomePage/>}
             {isHr && <HomePageForHr/>}
-            <About/>
+            {!isHr && !isEmployee ? <About/> : <></>}
             {!isEmployee && !isHr ? <ContactHr/> : ''}
-            <Packages/>
+            {isEmployee || <Packages/>}
         </main>
     );
 };
