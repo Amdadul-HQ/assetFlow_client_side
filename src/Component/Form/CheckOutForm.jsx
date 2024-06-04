@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
 import { ImSpinner9 } from 'react-icons/im';
+import toast from 'react-hot-toast';
 
-const CheckoutForm = ({paymentInfo,closeModal,isOpen}) => {
+const CheckOutForm = ({info}) => {
     const strip = useStripe();
     const element = useElements();
     const [clientSecret,setClientSecret] = useState()
@@ -15,10 +16,11 @@ const CheckoutForm = ({paymentInfo,closeModal,isOpen}) => {
     const {user} = useAuth()
   
     useEffect(()=>{
-        if(paymentInfo?.price > 1){
-          getClientSecret({price:paymentInfo?.price})
+        if(info?.price > 1){
+          getClientSecret({price:info?.price})
         }
-    },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[info?.price])
   
     const getClientSecret =async price => {
      const {data} = await axiosSecure.post('/create-payment-intent',price)
@@ -66,11 +68,17 @@ const CheckoutForm = ({paymentInfo,closeModal,isOpen}) => {
         if(paymentIntent.status === 'succeeded'){
           console.log(paymentIntent);
           const paymentInfo = {
-            ...paymentInfo,
+            ...info,
+            email:user?.email,
+            userName:user?.displayName,
             transitionId: paymentIntent.id,
             date: new Date()
           }
+          setProcessing(false)
+          toast.success('Payment Successful')
           console.log(paymentInfo);
+          const {data:paymentData} = await axiosSecure.post('/payments',paymentInfo)
+          console.log(paymentData);
         }
     
       };
@@ -93,30 +101,23 @@ const CheckoutForm = ({paymentInfo,closeModal,isOpen}) => {
             },
           }}
         />
+          {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
 
         <div className="flex mt-2 justify-around">
           <button
-            // disabled={!strip || !clientSecret || processing}
+            disabled={!strip || !clientSecret || processing}
             type="submit"
             className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
           > {processing ? (
             <ImSpinner9 className='animate-spin m-auto' size={24} />
           ) : (
-            `Pay ${paymentInfo?.price}`
+            `Pay ${info?.price}`
           )}
-          </button>
-          <button
-            onClick={closeModal}
-            type="button"
-            className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-          >
-            No
           </button>
         </div>
       </form>
-      {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
     </>
     );
 };
 
-export default CheckoutForm;
+export default CheckOutForm;

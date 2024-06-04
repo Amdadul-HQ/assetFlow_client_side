@@ -6,6 +6,23 @@ import useAuth from "../../../Hooks/useAuth";
 const AddEmployeePage = () => {
     const axiosSecure = useAxiosSecure()
     const {user} = useAuth()
+
+    const {data:packageName} = useQuery({
+        queryKey:['package',user?.email],
+        queryFn: async()=>{
+            const {data} = await axiosSecure.get(`/package/${user?.email}`)
+            return data
+        }
+    })
+    const { data:myemployees } = useQuery({
+        queryKey: ["myemployee", user?.email],
+        queryFn: async () => {
+          const { data } = await axiosSecure.get(`/companyemployee/${user?.email}`);
+          return data;
+        },
+      });
+    
+
     const {data,refetch} = useQuery({
         queryKey:['nonemployee'],
         queryFn:async()=>{
@@ -28,20 +45,29 @@ const AddEmployeePage = () => {
         const companyName = Hrdata?.companyName;
         const companyLogoUrl = Hrdata?.companyLogoUrl;
         
-        const {data} = await axiosSecure.post('/addtocompany',{...employee,hremail,companyName,companyLogoUrl})
-        if(data){
+        if(packageName == 'BASIC'){
+            const {data} = await axiosSecure.post('/addtocompany',{...employee,hremail,companyName,companyLogoUrl})
+            if(data){
             console.log(data);
             refetch()
+        }
         }
     }
 
     return (
         <section className="min-h-[calc(100vh-330px)]">
             <section className="container px-4 mx-auto pt-20">
+    <div className="flex items-center justify-between">
     <div className="flex items-center gap-x-3">
         <h2 className="text-lg font-medium text-gray-800 dark:text-white">Total </h2>
 
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">{data?.length} users</span>
+    </div>
+    <div className="flex items-center gap-x-3">
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">My Employee </h2>
+
+        <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">{myemployees?.length} users</span>
+    </div>
     </div>
 
     <div className="flex flex-col mt-6">
