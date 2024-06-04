@@ -40,7 +40,8 @@ const AddAnAssetPage = () => {
                 companyName,
                 companyLogoUrl,
                 assetHolder,
-                addedDate
+                addedDate,
+                requestCount:0,
             }
 
             const {data} = await axiosSecure.post('/addasset',assetDetails)

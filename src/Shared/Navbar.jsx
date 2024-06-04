@@ -1,26 +1,36 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import useHrManager from "../Hooks/useHrManager";
 import useEmployee from "../Hooks/useEmployee";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure()
   const currentLocation = location.pathname;
   const handleLogout = () => {
     logOut().then((res) => {
       toast.success("Log out Successful");
     });
   };
+  const {data:userdetails} =useQuery({
+    queryKey:['userdetails',user?.email],
+    queryFn:async()=>{
+        const {data} = await axiosSecure.get(`/userdetails/${user?.email}`)
+        return data
+    }
+})
   const [isHr] = useHrManager()
   const [isEmployee] = useEmployee()
   return (
     <header className="container mx-auto bg-slate-600">
       <nav className="flex container fixed z-10 mx-auto justify-between py-5 ">
-        <h1 className="text-4xl font-semibold">
+        {userdetails ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="text-4xl font-semibold">
           Asset<span className="text-violet-500">Flow</span>
-        </h1>
+        </h1>}
         <div
           className={`${
             currentLocation !== "/"
@@ -145,9 +155,7 @@ const Navbar = () => {
             
           </ul>
           {user && user ? (
-            <button onClick={handleLogout} className="hover:text-violet-500">
-              Log out
-            </button>
+            <></>
           ) : (
             <NavLink
               className={({ isActive }) =>
@@ -158,6 +166,25 @@ const Navbar = () => {
               Login
             </NavLink>
           )}
+          {
+            user && <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img alt="Tailwind CSS Navbar component" referrerPolicy="no-referrer" src={user?.photoURL}/>
+              </div>
+            </div>
+            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <Link to='/profile' className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </Link>
+              </li>
+              <li onClick={handleLogout}><a>Logout</a></li>
+            </ul>
+          </div>
+          }
+
         </div>
       </nav>
     </header>

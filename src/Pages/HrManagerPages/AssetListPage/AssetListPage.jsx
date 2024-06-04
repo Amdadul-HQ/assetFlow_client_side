@@ -3,9 +3,11 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const AssetListPage = () => {
     const axiosSecure = useAxiosSecure()
+    const [search, setSearch] = useState("");
     const {user} = useAuth()
     const {data,refetch} = useQuery({
         queryKey:['assets',user?.email],
@@ -58,18 +60,20 @@ const AssetListPage = () => {
             }
           });
     }
+    const handleSearch = (e) => {
+      e.preventDefault();
+      setSearch(e.target.search.value);
+  }
 
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <section className="container px-4 mx-auto pt-20">
-        <div>
-            <div>
-                
-            </div>
+      <div className="flex items-center my-5 gap-x-5 justify-center">
           <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
-            <form className="flex flex-col lg:flex-row">
+            <form onSubmit={handleSearch} className="flex flex-col lg:flex-row">
               <input
-                type="email"
+                name="search"
+                type="search"
                 placeholder="Search a Product Name"
                 className="flex-1 h-10 px-4 py-2 m-1 text-gray-700 placeholder-gray-400 bg-transparent border-none appearance-none dark:text-gray-200 focus:outline-none focus:placeholder-transparent focus:ring-0"
               />
@@ -82,7 +86,13 @@ const AssetListPage = () => {
               </button>
             </form>
           </div>
-
+          <select className="select select-bordered  max-w-32 mt-8">
+            <option disabled value='default' >Filter By</option>
+            <option>Available</option>
+            <option>out-of-stock</option>
+            <option>Returnable</option>
+            <option>non-Returnable</option>
+            </select>
         </div>
         <div className="flex items-center gap-x-3">
           <h2 className="text-lg font-medium text-gray-800 dark:text-white">

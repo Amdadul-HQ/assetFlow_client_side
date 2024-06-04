@@ -25,7 +25,7 @@ const RequestForAsset = () => {
   });
   const handleAssetRequest = async (item) => {
     const requestAsset = {
-      _id:item?._id,
+      key:item?._id,
       productName: item?.productName,
       productType: item?.productType,
       productQuantity: item?.productQuantity,

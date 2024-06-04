@@ -25,8 +25,10 @@ const AddEmployeePage = () => {
     
     const handleAddToTeam =async (employee) => {
         const hremail = Hrdata?.email
+        const companyName = Hrdata?.companyName;
+        const companyLogoUrl = Hrdata?.companyLogoUrl;
         
-        const {data} = await axiosSecure.post('/addtocompany',{...employee,hremail})
+        const {data} = await axiosSecure.post('/addtocompany',{...employee,hremail,companyName,companyLogoUrl})
         if(data){
             console.log(data);
             refetch()

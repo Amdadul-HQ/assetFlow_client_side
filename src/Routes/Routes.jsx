@@ -16,6 +16,7 @@ import RequestForAsset from "../Pages/EmployeePages/RequestForAsset/RequestForAs
 import MyAsset from "../Pages/EmployeePages/MyAsset/MyAsset";
 import MyTeam from "../Pages/EmployeePages/MyTeam/MyTeam";
 import PayMentPage from "../Pages/PayMentPage/PayMentPage";
+import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 
 const router = createBrowserRouter([
     {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
             {
                 path:'/payment',
                 element:<PayMentPage/>
+            },
+            {
+                path:'/profile',
+                element:<ProfilePage/>
             }
         ]
     }
