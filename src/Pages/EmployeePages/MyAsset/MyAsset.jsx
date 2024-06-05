@@ -4,46 +4,69 @@ import useAuth from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import useMyAsset from "../../../Hooks/useMyAsset";
 
 const MyAsset = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
-  const [returnable,setReturnable] = useState('')
+  const { count } = useMyAsset();
+  // const []
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemPerPage, setItemPerPage] = useState(5);
+  const numberofPages = Math.ceil(count / itemPerPage);
+  const pages = [...Array(numberofPages).keys()];
   const { user } = useAuth();
-  const { data ,refetch } = useQuery({
-      queryKey: ["myasset", user?.email,search,returnable],
-      queryFn: async () => {
-          const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}?search=${search}`);
-          return data;
-        },
-    });
-    const handleCancelAssetRequest = async (id,key) => {
-      
-      const {data} = await axiosSecure.delete(`/assetsofemploye/${id}`)
-      const {data:updateData} = await axiosSecure.patch(`/updaterequestcount/${key}`)
-      if(data.deletedCount> 0){
-          refetch()
-          toast.success('Request Cancel Successful')
-      }
-      
-    };
-    const handleReturnAsset = async (id,key) => {
-        const {data:updateData} = await axiosSecure.patch(`/returnupdate/${key}`,{id})      
-            toast.success('Asset Return Successful')
-            refetch()
-        
+  const { data, refetch } = useQuery({
+    queryKey: ["myasset", user?.email, search],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(
+        `/assetsofemploye/${user?.email}?search=${search}&page=${currentPage}&size=${itemPerPage}`
+      );
+      return data;
+    },
+  });
+  const handleCancelAssetRequest = async (id, key) => {
+    const { data } = await axiosSecure.delete(`/assetsofemploye/${id}`);
+    const { data: updateData } = await axiosSecure.patch(
+      `/updaterequestcount/${key}`
+    );
+    if (data.deletedCount > 0) {
+      refetch();
+      toast.success("Request Cancel Successful");
     }
+  };
+  const handleReturnAsset = async (id, key) => {
+    const { data: updateData } = await axiosSecure.patch(
+      `/returnupdate/${key}`,
+      { id }
+    );
+    toast.success("Asset Return Successful");
+    refetch();
+  };
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        setSearch(e.target.search.value);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.search.value);
+  };
+  const handleItemPerPage = (e) => {
+    const value = parseInt(e.target.value);
+    setItemPerPage(value);
+    setCurrentPage(0);
+  };
+  const handlePreview = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
     }
+  };
+  const handleNext = () => {
+    if (currentPage < pages.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <Helmet>
-        <title>
-          My Assets
-        </title>
+        <title>My Assets</title>
       </Helmet>
       <section className="container px-4 mx-auto pt-20">
         <div className="flex items-center my-5 gap-x-5 justify-center">
@@ -65,12 +88,16 @@ const MyAsset = () => {
             </form>
           </div>
           <select className="select select-bordered  max-w-32 mt-8">
-            <option selected disabled value='default' >Filter By</option>
+            <option selected disabled value="default">
+              Filter By
+            </option>
             <option>Pending</option>
             <option>Approved</option>
-            <option onClick={()=>setReturnable('returnable')} >Returnable</option>
+            <option>
+              Returnable
+            </option>
             <option>non-Returnable</option>
-            </select>
+          </select>
         </div>
         <div className="flex items-center gap-x-3">
           <h2 className="text-lg font-medium text-gray-800 dark:text-white">
@@ -78,7 +105,7 @@ const MyAsset = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-            {data && data.length}
+            {count && count}
           </span>
         </div>
 
@@ -182,7 +209,7 @@ const MyAsset = () => {
                           </td>
 
                           <td className="px-4 py-4 text-sm whitespace-nowrap">
-                            {item.approvalDate ? item.approvalDate : 'N/A'}
+                            {item.approvalDate ? item.approvalDate : "N/A"}
                           </td>
                           <td className="py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex uppercase font-medium items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">
@@ -197,37 +224,61 @@ const MyAsset = () => {
                             </div>
                           </td>
                           <td className="space-x-2">
-                            {
-                                (item.status =='Approve' && item.productType == 'returnable') && <button onClick={()=>handleReturnAsset(item._id,item.key)}>
-                                <div className="inline-flex items-center px-3 py-1 text-black rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
-                                  <svg
-                                    width="12"
-                                    height="12"
-                                    viewBox="0 0 12 12"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M4.5 7L2 4.5M2 4.5L4.5 2M2 4.5H8C8.53043 4.5 9.03914 4.71071 9.41421 5.08579C9.78929 5.46086 10 5.96957 10 6.5V10"
-                                      stroke="#667085"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
-  
-                                  <h2 className="text-sm font-normal">Return</h2>
-                                </div>
-                              </button>
-                            }
-                            <button disabled={item.status == 'Approve'} onClick={()=>handleCancelAssetRequest(item._id,item.key)} className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg>
+                            {item.status == "Approve" &&
+                              item.productType == "returnable" && (
+                                <button
+                                  onClick={() =>
+                                    handleReturnAsset(item._id, item.key)
+                                  }
+                                >
+                                  <div className="inline-flex items-center px-3 py-1 text-black rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                                    <svg
+                                      width="12"
+                                      height="12"
+                                      viewBox="0 0 12 12"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M4.5 7L2 4.5M2 4.5L4.5 2M2 4.5H8C8.53043 4.5 9.03914 4.71071 9.41421 5.08579C9.78929 5.46086 10 5.96957 10 6.5V10"
+                                        stroke="#667085"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                    </svg>
 
-                                        <h2 className="text-sm font-normal">Cancel</h2>
-                                    </button>
+                                    <h2 className="text-sm font-normal">
+                                      Return
+                                    </h2>
+                                  </div>
+                                </button>
+                              )}
+                            <button
+                              disabled={item.status == "Approve"}
+                              onClick={() =>
+                                handleCancelAssetRequest(item._id, item.key)
+                              }
+                              className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800"
+                            >
+                              <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 12 12"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9 3L3 9M3 3L9 9"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
 
+                              <h2 className="text-sm font-normal">Cancel</h2>
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -239,8 +290,8 @@ const MyAsset = () => {
         </div>
 
         <div className="flex items-center justify-between mt-6">
-          <a
-            href="#"
+          <button
+            onClick={handlePreview}
             className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <svg
@@ -259,55 +310,32 @@ const MyAsset = () => {
             </svg>
 
             <span>previous</span>
-          </a>
+          </button>
 
-          <div className="items-center hidden lg:flex gap-x-3">
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              3
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              ...
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              12
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              13
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              14
-            </a>
+          <div className="items-center  lg:flex gap-x-3">
+            {pages &&
+              pages.map((page, inx) => (
+                <button
+                  onClick={() => setCurrentPage(page)}
+                  key={inx}
+                  className={`px-2 py-1 text-sm ${
+                    page == currentPage
+                      ? "bg-violet-500 text-white"
+                      : "text-black"
+                  } text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60`}
+                >
+                  {page}
+                </button>
+              ))}
+            <select value={itemPerPage} onChange={handleItemPerPage}>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+            </select>
           </div>
 
-          <a
-            href="#"
+          <button
+            onClick={handleNext}
             className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <span>Next</span>
@@ -326,7 +354,7 @@ const MyAsset = () => {
                 d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
               />
             </svg>
-          </a>
+          </button>
         </div>
       </section>
     </section>

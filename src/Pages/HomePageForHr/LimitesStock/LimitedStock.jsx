@@ -7,10 +7,10 @@ const LimitedStock = () => {
     const axiosSecure = useAxiosSecure();
     const [product,setProduct] = useState([])
     const {data} = useQuery({
-        queryKey:['assets',user?.email],
+        queryKey:['assets',user?.email,product],
         queryFn:async() => {
             const {data} = await axiosSecure.get(`/assets/${user?.email}`)
-            setProduct(data.filter(item => item.productQuantity<10 && item.productQuantity>0))
+            setProduct(data.filter(item => item.productQuantity <10 && item.productQuantity>0))
         }
     })
     return (
