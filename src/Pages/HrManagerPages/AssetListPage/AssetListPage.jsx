@@ -5,19 +5,25 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import useAssetCount from "../../../Hooks/useAssetCount";
 
 const AssetListPage = () => {
     const axiosSecure = useAxiosSecure()
     const [search, setSearch] = useState("");
     const {user} = useAuth()
+    const [currentPage,setCurrentPage] = useState(0)
+    const {count } = useAssetCount()
+    const [itemPerPage,setItemPerPage] = useState(5)
+    const numberofPages = Math.ceil(count  / itemPerPage)
+    const pages = [...Array(numberofPages).keys()]
     const {data,refetch} = useQuery({
-        queryKey:['assets',user?.email],
-        queryFn:async() => {
-            const {data} = await axiosSecure.get(`/assets/${user?.email}`)
-            return data 
+      queryKey:['assets',user?.email,currentPage,itemPerPage,count,pages,search],
+      queryFn:async() => {
+          const {data} = await axiosSecure.get(`/assets/${user?.email}?search=${search}&page=${currentPage}&size=${itemPerPage}`)
+          return data 
         }
-    })
-    const handleDelete =async (id) => {
+      })
+      const handleDelete =async (id) => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
               confirmButton: "btn btn-success",
@@ -65,6 +71,21 @@ const AssetListPage = () => {
       e.preventDefault();
       setSearch(e.target.search.value);
   }
+  const handleItemPerPage = e =>{
+    const value = parseInt(e.target.value)
+    setItemPerPage(value)
+    setCurrentPage(0)
+  }
+  const handlePreview = () =>{
+    if(currentPage > 0){
+      setCurrentPage(currentPage -1)
+    }
+  }
+  const handleNext = () => {
+    if(currentPage < pages.length){
+      setCurrentPage(currentPage +1)
+    }
+  }
 
   return (
     <section className="min-h-[calc(100vh-330px)]">
@@ -106,7 +127,7 @@ const AssetListPage = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-            {data && data.length}
+            {count && count}
           </span>
         </div>
 
@@ -272,8 +293,8 @@ const AssetListPage = () => {
         </div>
 
         <div className="flex items-center justify-between mt-6">
-          <a
-            href="#"
+          <button
+            onClick={handlePreview}
             className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <svg
@@ -292,55 +313,27 @@ const AssetListPage = () => {
             </svg>
 
             <span>previous</span>
-          </a>
+          </button>
 
-          <div className="items-center hidden lg:flex gap-x-3">
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              3
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              ...
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              12
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              13
-            </a>
-            <a
-              href="#"
-              className="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-            >
-              14
-            </a>
+          <div className="items-center  lg:flex gap-x-3">
+            { pages &&
+              pages.map((page,inx) => <button
+              onClick={()=>setCurrentPage(page)}
+              key={inx}
+                className={`px-2 py-1 text-sm ${page == currentPage ? 'bg-violet-500 text-white' : 'text-black'} text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60`}
+              >
+                {page}
+              </button>)
+            }
+            <select value={itemPerPage} onChange={handleItemPerPage}>
+              <option value='5'>5</option>
+              <option value='10'>10</option>
+              <option value='15'>15</option>
+            </select>
           </div>
 
-          <a
-            href="#"
+          <button
+            onClick={handleNext}
             className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
           >
             <span>Next</span>
@@ -359,7 +352,7 @@ const AssetListPage = () => {
                 d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
               />
             </svg>
-          </a>
+          </button>
         </div>
       </section>
     </section>

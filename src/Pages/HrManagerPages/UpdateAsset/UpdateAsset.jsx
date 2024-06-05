@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import { imageUpload } from "../../../Utility";
+import toast from "react-hot-toast";
 
 const UpdateAsset = () => {
     const axiosSecure = useAxiosSecure()
@@ -20,7 +21,6 @@ const UpdateAsset = () => {
         const form = e.target;
         const productName = form.productName.value;
         const productType = form.productType.value;
-        const productImage = form.productPhoto.files[0]
         const productQuantity = form.productQuantity.value;
         const assetHolder = {
             name:user?.displayName,
@@ -28,19 +28,17 @@ const UpdateAsset = () => {
         }
         const addedDate = new Date().toLocaleDateString()
         try{
-            const productImageUrl = await imageUpload(productImage)
 
             const assetDetails = {
                 productName,
                 productType,
                 productQuantity,
-                productImageUrl,
                 assetHolder,
                 addedDate
             }
             console.log(assetDetails);
             const {data} = await axiosSecure.patch(`/updateasset/${id}`,assetDetails)
-            // console.log(data);
+            toast.success('Asset Update Successful')
         }
         catch(err){
             console.log(err);
@@ -84,28 +82,6 @@ const UpdateAsset = () => {
                   <option value='non-returnable' >Non Returnable</option>
               </select>
             </div>
-
-              <label
-                htmlFor="dropzone-file"
-                className="flex items-center px-3 py-3 mx-auto mt-6 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 mr-3 text-gray-300 dark:text-gray-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                  />
-                </svg>
-
-                <input defaultValue={data?.productImageUrl} required  id="dropzone-file" type="file" name="productPhoto"  />
-              </label>
 
               <div className="relative flex items-center mt-6">
                 <input
