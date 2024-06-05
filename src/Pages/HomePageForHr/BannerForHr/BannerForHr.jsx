@@ -1,4 +1,4 @@
-import hrbg from '../../../assets/about.jpg'
+
 const BannerForHr = () => {
     return (
         <section style={{

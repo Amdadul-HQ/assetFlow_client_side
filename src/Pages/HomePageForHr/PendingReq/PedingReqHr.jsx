@@ -13,7 +13,7 @@ const PedingReqHr = () => {
       },
     });
     return (
-        <section className="min-h-[calc(100vh-330px)]">
+        <section className="min-h-[calc(100vh-330px)] container mx-auto">
       <section className="container px-4 mx-auto pt-20">
             <h1 className="text-5xl text-center mb-5 font-bold">Pending requests</h1>
         <div className="flex items-center gap-x-3 justify-center">

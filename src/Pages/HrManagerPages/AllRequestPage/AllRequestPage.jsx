@@ -14,8 +14,9 @@ const AllRequestPage = () => {
       return data;
     },
   });
-  const handleAccept = async (id) => {
-    const {data} = await axiosSecure.patch(`/acceptasset/${id}`)
+  const handleAccept = async (id,key) => {
+
+    const {data} = await axiosSecure.patch(`/acceptasset/${key}`,{id})
     if(data.modifiedCount>0){
         toast.success('Request Accept Successful')
         refetch()
@@ -184,7 +185,7 @@ const AllRequestPage = () => {
                             </div>
                           </td>
                           <td className="space-x-2">
-                            <button onClick={()=> handleAccept(item._id)} >
+                            <button onClick={()=> handleAccept(item._id,item.key)} >
                               <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
                                 <svg
                                   width="12"

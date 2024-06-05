@@ -13,7 +13,7 @@ const MyAsset = () => {
   const { data ,refetch } = useQuery({
       queryKey: ["myasset", user?.email,search,returnable],
       queryFn: async () => {
-          const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}?search=${search}&returnable=${returnable}`);
+          const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}?search=${search}`);
           return data;
         },
     });
@@ -27,9 +27,8 @@ const MyAsset = () => {
       }
       
     };
-    const handleReturnAsset = async (id) => {
-        const {data} = await axiosSecure.delete(`/returnasset/${id}`)
-      
+    const handleReturnAsset = async (id,key) => {
+        const {data:updateData} = await axiosSecure.patch(`/returnupdate/${key}`,{id})      
             toast.success('Asset Return Successful')
             refetch()
         
@@ -199,7 +198,7 @@ const MyAsset = () => {
                           </td>
                           <td className="space-x-2">
                             {
-                                item.productType == 'returnable' && <button onClick={()=>handleReturnAsset(item._id)}>
+                                (item.status =='Approve' && item.productType == 'returnable') && <button onClick={()=>handleReturnAsset(item._id,item.key)}>
                                 <div className="inline-flex items-center px-3 py-1 text-black rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
                                   <svg
                                     width="12"

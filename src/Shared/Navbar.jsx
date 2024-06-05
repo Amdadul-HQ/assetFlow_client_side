@@ -27,8 +27,8 @@ const Navbar = () => {
   const [isEmployee] = useEmployee()
   return (
     <header className="mx-auto">
-      <nav className="flex px-20 w-full fixed bg-black z-10 mx-auto justify-between py-3 ">
-        {userdetails ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl text-violet-500 font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="text-4xl font-semibold">
+      <nav className="flex px-10 w-full fixed bg-black z-10 mx-auto justify-between py-3 ">
+        {userdetails ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl text-violet-500 font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="text-4xl text-white font-semibold">
           Asset<span className="text-violet-500">Flow</span>
         </h1>}
         <div
