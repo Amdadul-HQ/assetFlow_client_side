@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import useHrManager from "../Hooks/useHrManager";
@@ -8,12 +8,12 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  const location = useLocation();
+  const navigate = useNavigate()
   const axiosSecure = useAxiosSecure()
-  const currentLocation = location.pathname;
   const handleLogout = () => {
     logOut().then((res) => {
       toast.success("Log out Successful");
+      navigate('/')
     });
   };
   const {data:userdetails} =useQuery({
@@ -26,17 +26,13 @@ const Navbar = () => {
   const [isHr] = useHrManager()
   const [isEmployee] = useEmployee()
   return (
-    <header className="container mx-auto bg-slate-600">
-      <nav className="flex container fixed z-10 mx-auto justify-between py-5 ">
-        {userdetails ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="text-4xl font-semibold">
+    <header className="mx-auto">
+      <nav className="flex px-20 w-full fixed bg-black z-10 mx-auto justify-between py-3 ">
+        {userdetails ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl text-violet-500 font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="text-4xl font-semibold">
           Asset<span className="text-violet-500">Flow</span>
         </h1>}
         <div
-          className={`${
-            currentLocation !== "/"
-              ? "text-black flex items-center gap-x-10 text-lg font-medium"
-              : "text-slate-700 flex gap-x-10 text-lg font-medium items-center"
-          } `}
+          className="text-white flex items-center gap-x-10 text-lg font-medium"
         >
           <ul className="flex gap-x-10 ">
             <NavLink
@@ -167,7 +163,7 @@ const Navbar = () => {
             </NavLink>
           )}
           {
-            user && <div className="dropdown dropdown-end">
+            user && <div className="dropdown dropdown-end text-black">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img alt="Tailwind CSS Navbar component" referrerPolicy="no-referrer" src={user?.photoURL}/>

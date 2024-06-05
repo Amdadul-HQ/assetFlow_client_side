@@ -8,17 +8,19 @@ import { Helmet } from "react-helmet-async";
 const MyAsset = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
+  const [returnable,setReturnable] = useState('')
   const { user } = useAuth();
   const { data ,refetch } = useQuery({
-      queryKey: ["myasset", user?.email,search],
+      queryKey: ["myasset", user?.email,search,returnable],
       queryFn: async () => {
-          const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}?search=${search}`);
+          const { data } = await axiosSecure.get(`/assetsofemploye/${user?.email}?search=${search}&returnable=${returnable}`);
           return data;
         },
     });
-    const handleCancelAssetRequest = async (id) => {
+    const handleCancelAssetRequest = async (id,key) => {
       
       const {data} = await axiosSecure.delete(`/assetsofemploye/${id}`)
+      const {data:updateData} = await axiosSecure.patch(`/updaterequestcount/${key}`)
       if(data.deletedCount> 0){
           refetch()
           toast.success('Request Cancel Successful')
@@ -64,10 +66,10 @@ const MyAsset = () => {
             </form>
           </div>
           <select className="select select-bordered  max-w-32 mt-8">
-            <option disabled value='default' >Filter By</option>
+            <option selected disabled value='default' >Filter By</option>
             <option>Pending</option>
             <option>Approved</option>
-            <option>Returnable</option>
+            <option onClick={()=>setReturnable('returnable')} >Returnable</option>
             <option>non-Returnable</option>
             </select>
         </div>
@@ -219,7 +221,7 @@ const MyAsset = () => {
                                 </div>
                               </button>
                             }
-                            <button disabled={item.status == 'Approve'} onClick={()=>handleCancelAssetRequest(item._id)} className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                            <button disabled={item.status == 'Approve'} onClick={()=>handleCancelAssetRequest(item._id,item.key)} className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>

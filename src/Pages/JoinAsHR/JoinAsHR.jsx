@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 const JoinAsHR = () => {
     const navigate = useNavigate()
-    const {createUser,updataNamePhoto,logOut} = useAuth()
+    const {createUser,updataNamePhoto} = useAuth()
     const axiosCommon = useAxiosCommon()
     const handelSubmit = async e => {
         e.preventDefault()
@@ -35,12 +35,11 @@ const JoinAsHR = () => {
         .then(async()=>{
             updataNamePhoto(name,imageUrl)
             .then(() => {
-                toast.success('User Created Successful')
+                toast.success('HR Account Created Successful')
             })
             const {data} = await axiosCommon.put('/user',hrDetails)
             form.reset()
-            logOut()
-            navigate('/login')
+            navigate('/payment')
         })
         .catch(err=> {
            return toast.error(err.message)
