@@ -5,8 +5,11 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import useMyAsset from "../../../Hooks/useMyAsset";
+import Print from "../Print/Print";
+
 
 const MyAsset = () => {
+  const currentDate = new Date()
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
   const { count } = useMyAsset();
@@ -281,7 +284,7 @@ const MyAsset = () => {
                             <button
                               className={`inline-flex items-center ${item.status == 'Requested' && 'hidden'} px-3 py-1 rounded-full gap-x-2 bg-green-300 text-black dark:bg-gray-800`}
                             >
-                              <h2 className="text-sm font-normal">Print</h2>
+                              <Print item={item} currentDate={currentDate} />
                             </button>
                           </td>
                         </tr>
@@ -292,7 +295,7 @@ const MyAsset = () => {
             </div>
           </div>
         </div>
-
+                      
         <div className="flex items-center justify-between mt-6">
           <button
             onClick={handlePreview}

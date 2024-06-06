@@ -19,11 +19,11 @@ const HomePage = () => {
                 </title>
             </Helmet>
             {!isHr && !isEmployee ? <Banner/> : <></>}
-            {isEmployee && <EmployeeHomePage/>}
-            {isHr && <HomePageForHr/>}
+            {/* {isEmployee && <EmployeeHomePage/>} */}
+            {/* {isHr && <HomePageForHr/>} */}
             {!isHr && !isEmployee ? <About/> : <></>}
-            {!isEmployee && !isHr ? <ContactHr/> : ''}
-            {isEmployee || <Packages/>}
+            {/* {!isEmployee && !isHr ? <ContactHr/> : ''} */}
+            {/* {isEmployee || <Packages/>} */}
         </main>
     );
 };

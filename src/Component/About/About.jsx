@@ -3,16 +3,16 @@ import about from "../../assets/about.jpg";
 import hr from "../../assets/abouthr.png";
 const About = () => {
   return (
-    <section className="my-32 container mx-auto">
+    <section className="my-32 lg:px-0 px-5 container mx-auto">
       <div className="text-center">
         <h1 className="text-5xl font-bold">About Us</h1>
-        <p className="text-xl max-w-[800px] mt-3 mx-auto">
+        <p className="lg:text-xl text-lg max-w-[800px] mt-3 mx-auto">
           Empower your workforce and optimize resource allocation with
           AssetFlow, the all-in one web application designed to revolutionize
           employee asset management.
         </p>
       </div>
-      <div className="mt-6 grid grid-cols-2 gap-x-6 justify-center items-center">
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-x-6 justify-center items-center">
         <div>
           <img className="rounded-lg" src={about} alt="" />
         </div>
@@ -62,7 +62,7 @@ const About = () => {
           backgroundPosition: "center",
         }}
       >
-        <div className="max-w-[900px] ml-20">
+        <div className="max-w-[900px] lg:ml-20">
           <h3 className="text-3xl mb-2 font-bold mt-5 border-b-2 w-fit border-black pb-2">
             Benefits for HR Managers:
           </h3>

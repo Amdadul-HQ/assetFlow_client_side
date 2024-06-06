@@ -42,6 +42,8 @@ const RequestForAsset = () => {
       productType: item?.productType,
       productQuantity: item?.productQuantity,
       productImageUrl: item?.productImageUrl,
+      companyName: item?.companyName,
+      companyLogoUrl:item?.companyLogoUrl,
       assetHolder: item?.assetHolder,
       addedDate: item?.addedDate,
       requestDate: new Date(),
