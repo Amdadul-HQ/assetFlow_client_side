@@ -11,6 +11,8 @@ const RequestForAsset = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
+  const [quantity,setQuantity] = useState()
+  const [type,setType] = useState('')
   const {count} = useAssetCountForEmployee();
   const [currentPage, setCurrentPage] = useState(0);
   const [itemPerPage, setItemPerPage] = useState(5);
@@ -25,9 +27,9 @@ const RequestForAsset = () => {
   });
   const hremail = employee?.hremail;
   const { data: asset } = useQuery({
-    queryKey: ["assets", hremail,count,currentPage,itemPerPage,search],
+    queryKey: ["assets", hremail,count,currentPage,itemPerPage,search,type,quantity],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/assets/${hremail}?search=${search}&page=${currentPage}&size=${itemPerPage}`);
+      const { data } = await axiosSecure.get(`/assets/${hremail}?search=${search}&page=${currentPage}&size=${itemPerPage}&type=${type}&quantity=${quantity}`);
       return data;
     },
   });
@@ -98,17 +100,15 @@ const RequestForAsset = () => {
               </button>
             </form>
           </div>
-          <select className="select select-bordered  max-w-32 mt-8">
-            <option selected disabled value="default">
-              Filter By
-            </option>
-            <option>Pending</option>
-            <option>Approved</option>
-            <option>
-              Returnable
-            </option>
-            <option>non-Returnable</option>
-          </select>
+          <div className="dropdown dropdown-hover mt-8">
+            <div tabIndex={0} role="button" className="btn m-1 bg-violet-500 hover:bg-violet-600 text-white">Filter By</div>
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li><button onClick={()=>setQuantity(1)}>Available</button></li>
+              <li><button onClick={()=>setQuantity(0)}>Out Of Stock</button></li>
+              <li><button onClick={()=> setType('returnable')}>Returnable</button></li>
+              <li><button onClick={()=> setType('non-returnable')}>non-Returnable</button></li>
+            </ul>
+          </div>
         </div>
         <div className="flex items-center gap-x-3">
           <h2 className="text-lg font-medium text-gray-800 dark:text-white">

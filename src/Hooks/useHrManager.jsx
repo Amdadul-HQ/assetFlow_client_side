@@ -10,7 +10,6 @@ const useHrManager = () => {
     const {data:isHr,isPending} = useQuery({
         queryKey:['isHr',user?.email],
         queryFn:async()=> {
-            // const res = await axios.get('http://localhost:5000/hrmanager/rimon@gmail.com')
             const {data} = await axiosCommon.get(`/hrmanager/${user?.email}`)
             return data?.hrRole
         }

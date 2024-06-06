@@ -11,12 +11,14 @@ import AllRequestPage from "../Pages/HrManagerPages/AllRequestPage/AllRequestPag
 import MyEmployeeListPage from "../Pages/HrManagerPages/MyEmployeeListPage/MyEmployeeListPage";
 import AddEmployeePage from "../Pages/HrManagerPages/AddEmployeePage/AddEmployeePage";
 import UpdateAsset from "../Pages/HrManagerPages/UpdateAsset/UpdateAsset";
-import axios from "axios";
 import RequestForAsset from "../Pages/EmployeePages/RequestForAsset/RequestForAsset";
 import MyAsset from "../Pages/EmployeePages/MyAsset/MyAsset";
 import MyTeam from "../Pages/EmployeePages/MyTeam/MyTeam";
 import PayMentPage from "../Pages/PayMentPage/PayMentPage";
 import ProfilePage from "../Pages/ProfilePage/ProfilePage";
+import PrivateRoutes from "./PrivateRoutes";
+import EmployeRoutes from "./EmployeRoutes";
+import HrRoutes from "./HrRoutes";
 
 const router = createBrowserRouter([
     {
@@ -40,51 +42,51 @@ const router = createBrowserRouter([
                 path:'/login',
                 element:<LoginPage/>
             },
+            // hr routes
             {
                 path:'/addasset',
-                element:<AddAnAssetPage/>
+                element:<PrivateRoutes><HrRoutes><AddAnAssetPage/></HrRoutes></PrivateRoutes>
             },
             {
                 path:'/assetlist',
-                element:<AssetListPage/>
+                element:<PrivateRoutes><HrRoutes><AssetListPage/></HrRoutes></PrivateRoutes>
             },
             {
                 path:'/allrequest',
-                element:<AllRequestPage/>
+                element:<PrivateRoutes><HrRoutes><AllRequestPage/></HrRoutes></PrivateRoutes>
             },
             {
                 path:'/myemployee',
-                element:<MyEmployeeListPage/>
+                element:<PrivateRoutes><HrRoutes><MyEmployeeListPage/></HrRoutes></PrivateRoutes>
             },
             {
                 path:'/addemployee',
-                element:<AddEmployeePage/>
+                element:<PrivateRoutes><HrRoutes><AddEmployeePage/></HrRoutes></PrivateRoutes>
             },
             {
                 path:'/updateasset/:id',
-                element: <UpdateAsset/>,
-                // loader:async({params})=> await axios.get(`${import.meta.env.VITE_API_URL}/asset/${params.id}`)
+                element: <PrivateRoutes><HrRoutes><UpdateAsset/></HrRoutes></PrivateRoutes>,
+            },
+            {
+                path:'/payment',
+                element:<PrivateRoutes><HrRoutes><PayMentPage/></HrRoutes></PrivateRoutes>
             },
             // employee pages
             {
                 path:'/requestasset',
-                element:<RequestForAsset/>
+                element:<PrivateRoutes><EmployeRoutes><RequestForAsset/></EmployeRoutes></PrivateRoutes>
             },
             {
                 path:'/myasset',
-                element:<MyAsset/>
+                element:<PrivateRoutes><EmployeRoutes><MyAsset/></EmployeRoutes></PrivateRoutes>
             },
             {
                 path:'/myteam',
-                element:<MyTeam/>
-            },
-            {
-                path:'/payment',
-                element:<PayMentPage/>
+                element:<PrivateRoutes><EmployeRoutes><MyTeam/></EmployeRoutes></PrivateRoutes>
             },
             {
                 path:'/profile',
-                element:<ProfilePage/>
+                element:<PrivateRoutes><ProfilePage/></PrivateRoutes>
             }
         ]
     }

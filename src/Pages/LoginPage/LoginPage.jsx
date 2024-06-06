@@ -2,9 +2,14 @@ import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosCommon from "../../Hooks/useAxiosCommon";
 import { Helmet } from "react-helmet-async";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const { signInGoogle, signIn } = useAuth();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location?.state || '/'
+
     const axiosCommon = useAxiosCommon()
   const handleGoogleSignIn = () => {
     signInGoogle()
@@ -18,6 +23,7 @@ const LoginPage = () => {
           status:'Available'
         }
         const {data} = await axiosCommon.put('/user',userDetails)
+        navigate(from)
       })
       .catch((err) => {
         toast.error(err.message);
@@ -31,6 +37,7 @@ const LoginPage = () => {
     signIn(email,password)
     .then(res => {
         toast.success('Login Successful')
+        navigate(form)
         form.reset()
     })
     .catch(err => {
