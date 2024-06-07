@@ -56,7 +56,7 @@
 
 Development Setup:
 
-Clone the repository: git clone https://github.com/your-username/asset-management-system.git
+Clone the repository: git clone https://github.com/programming-hero-web-course1/b9a12-client-side-Amdadul-HQ.git
 
 Install dependencies: npm install
 
