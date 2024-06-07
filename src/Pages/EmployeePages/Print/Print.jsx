@@ -1,6 +1,8 @@
 import { usePDF, Document, Page,Text} from '@react-pdf/renderer';
 const Print = ({item}) => {
     
+  // const data = new
+
     const MyDoc = (
       <Document>
         <Page >
@@ -25,8 +27,8 @@ const Print = ({item}) => {
       <Text >
         ASSET REQUESTED BY : {item?.name}
       </Text>
-      <Text >
-        PRINT DATE : {}
+      <Text>
+        PRINT DATE : {new Date().toLocaleDateString()}
       </Text>
         </Page>
       </Document>

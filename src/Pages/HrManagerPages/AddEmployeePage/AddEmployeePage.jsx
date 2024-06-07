@@ -25,7 +25,7 @@ const AddEmployeePage = () => {
   });
 
   const { data, refetch } = useQuery({
-    queryKey: ["nonemployee"],
+    queryKey: ["nonemployee",currentPage,itemPerPage],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/users?page=${currentPage}&size=${itemPerPage}`);
       return data;

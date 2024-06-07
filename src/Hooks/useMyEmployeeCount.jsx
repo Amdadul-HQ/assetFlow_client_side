@@ -5,14 +5,14 @@ import useAxiosSecure from "./useAxiosSecure";
 const useMyEmployeeCount = () => {
     const {user} = useAuth()
     const axiosSecure = useAxiosSecure()
-    const {data} = useQuery({
+    const {data,refetch:myTeamCountRefetch} = useQuery({
         queryKey:['companyemployeecount',user?.email],
         queryFn: async()=>{
             const {data} = await axiosSecure.get(`/companyemployeecount/${user?.email}`)
             return data
         }
     })
-    return {count:data?.count || 0}
+    return {count:data?.count || 0,myTeamCountRefetch}
 };
 
 export default useMyEmployeeCount;

@@ -10,7 +10,7 @@ import { useState } from "react";
 const MyEmployeeListPage = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const {count} = useMyEmployeeCount();
+  const {count,myTeamCountRefetch} = useMyEmployeeCount();
   const [currentPage,setCurrentPage] = useState(0)
   const [itemPerPage,setItemPerPage] = useState(5)
   const numberofPages = Math.ceil(count  / itemPerPage)
@@ -53,6 +53,7 @@ const MyEmployeeListPage = () => {
               });
               refetch();
               const {data} = await axiosSecure.patch(`/updateteamcount/${user?.email}`)
+              myTeamCountRefetch()
             })
             .catch((error) => {
               console.log(error.message);

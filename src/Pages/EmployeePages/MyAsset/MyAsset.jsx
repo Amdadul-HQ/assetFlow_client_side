@@ -9,10 +9,9 @@ import Print from "../Print/Print";
 
 
 const MyAsset = () => {
-  const currentDate = new Date()
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
-  const { count } = useMyAsset();
+  const { count ,myAssetCountRefatch } = useMyAsset();
   const [status,setStatus] = useState('')
   const [type,setType] = useState('')
   const [currentPage, setCurrentPage] = useState(0);
@@ -36,6 +35,7 @@ const MyAsset = () => {
     );
     if (data.deletedCount > 0) {
       refetch();
+      myAssetCountRefatch()
       toast.success("Request Cancel Successful");
     }
   };
@@ -284,7 +284,7 @@ const MyAsset = () => {
                             <button
                               className={`inline-flex items-center ${item.status == 'Requested' && 'hidden'} px-3 py-1 rounded-full gap-x-2 bg-green-300 text-black dark:bg-gray-800`}
                             >
-                              <Print item={item} currentDate={currentDate} />
+                              <Print item={item}  />
                             </button>
                           </td>
                         </tr>

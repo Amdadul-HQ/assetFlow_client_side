@@ -57,9 +57,9 @@ const JoinAsEmployee = () => {
             toast.error(err.message)
         })
         const {data} = await axiosCommon.put('/user',currentUser)
-        form.reset()
-        logOut()
-        navigate('/login')
+        
+          form.reset()
+          navigate('/')
     }
     catch(err){
         toast.error(err.message)

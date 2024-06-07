@@ -24,7 +24,7 @@ const HomePage = () => {
             {isEmployee && <EmployeeHomePage/>}
             {isHr && <HomePageForHr/>}
             {!isHr && !isEmployee ? <About/> : <></>}
-            {/* {!isEmployee && !isHr ? <ContactHr/> : ''} */}
+            {!isEmployee && !isHr && user ? <ContactHr/> : ''}
             <Packages/>
         </main>
     );

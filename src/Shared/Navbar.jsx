@@ -30,9 +30,12 @@ const Navbar = () => {
   return (
     <header className="mx-auto">
       <nav className="flex lg:px-10 w-full fixed bg-black z-10 mx-auto items-center px-2 justify-between py-3 ">
-        {userdetails ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl text-violet-500 font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="lg:text-4xl text-2xl text-white font-semibold">
-          Asset<span className="text-violet-500">Flow</span>
-        </h1>}
+        {userdetails?.companyLogoUrl ? <div className="flex items-center gap-x-4"><div><img className="w-11 h-11" src={userdetails?.companyLogoUrl}></img></div><h1 className="text-2xl text-violet-500 font-semibold">{userdetails?.companyName}</h1></div> : <h1 className="lg:text-4xl text-2xl text-white font-semibold">
+        Asset<span className="text-violet-500">Flow</span></h1>}
+        {/* {
+          user ? !user && <h1 className="lg:text-4xl text-2xl text-white font-semibold">
+          Asset<span className="text-violet-500">Flow</span></h1>
+        } */}
         <div
           className={`text-white top-[72px] lg:rounded-none rounded-bl-lg px-5 fixed lg:static ${showmenu ? 'right-0 transition-all duration-700' : '-right-96 transition-all duration-700'} overflow-hidden text-right bg-black lg:flex lg:flex-row flex-col items-center lg:gap-x-10 text-lg font-medium`}
         >
@@ -130,7 +133,11 @@ const Navbar = () => {
             >
               Request for an Asset
             </NavLink>
-            </> : <><NavLink
+            </> : <></>
+            }
+            {
+              !user && <>
+              <NavLink
               className={({ isActive }) =>
                 isActive
                   ? "text-violet-500"
@@ -149,12 +156,21 @@ const Navbar = () => {
               to="/joinashr"
             >
               Join As HR Manager
-            </NavLink></>
+            </NavLink>
+              </>
             }
-            
-          </ul>
-          {user && user ? (
-            <NavLink onClick={handleLogout}>Log out</NavLink>
+            {user && user ? (
+            <>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-violet-500" : "hover:text-violet-500"
+              }
+              to="/profile"
+            >
+              Profile
+            </NavLink>
+            <NavLink className="hover:text-violet-500 transition-all duration-300" onClick={handleLogout}>Log out</NavLink>
+            </>
           ) : (
             <NavLink
               className={({ isActive }) =>
@@ -165,14 +181,38 @@ const Navbar = () => {
               Login
             </NavLink>
           )}
+            
+          </ul>
+          {/* {user && user ? (
+            <>
+            <NavLink className="hover:text-violet-500 transition-all duration-300" onClick={handleLogout}>Log out</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-violet-500" : "hover:text-violet-500"
+              }
+              to="/profile"
+            >
+              Profile
+            </NavLink>
+            </>
+          ) : (
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-violet-500" : "hover:text-violet-500"
+              }
+              to="/login"
+            >
+              Login
+            </NavLink>
+          )} */}
           {
-            user && <div className="dropdown dropdown-end z-50 text-black">
+            user && <div className="dropdown lg:flex hidden dropdown-end z-50 text-black">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img alt="Tailwind CSS Navbar component" referrerPolicy="no-referrer" src={user?.photoURL}/>
               </div>
             </div>
-            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            {/* <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li>
                 <Link to='/profile' className="justify-between">
                   Profile
@@ -180,7 +220,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li onClick={handleLogout}><a>Logout</a></li>
-            </ul>
+            </ul> */}
           </div>
           }
 

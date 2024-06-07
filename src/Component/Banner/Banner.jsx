@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import "./styles.css";
-import employeebg from "../../assets/employee.png";
 import hrbg from '../../assets/hr.png'
 // import required modules
 import { Navigation } from "swiper/modules";
@@ -20,7 +19,7 @@ const Banner = () => {
         <SwiperSlide>
           <div
             style={{
-              background: `url(${employeebg})`,
+              background: `url(https://i.postimg.cc/HLqQ19Ng/Green-and-White-Modern-Job-Vacation-Banner.png)`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -39,7 +38,7 @@ const Banner = () => {
         <SwiperSlide>
           <div
           style={{
-            background: `linear-gradient(90deg,rgba(0,0,0,0.0),rgba(0,0,0,0.4)),url(${hrbg})`,
+            background: `linear-gradient(90deg,rgba(0,0,0,0.0),rgba(0,0,0,0.4)),url(https://i.postimg.cc/pTMn6X9V/Blue-White-Modern-Business-Strategy-Blog-Banner-1.png)`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
