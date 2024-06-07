@@ -1,16 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import PaiChart from "./PaiChart";
+import useAxiosCommon from "../../../Hooks/useAxiosCommon";
 
 
 const ReqofReturnandNonReturnAsset = () => {
     const {user} = useAuth()
-    const axiosSecure = useAxiosSecure()
+    const axiosCommon = useAxiosCommon()
     const {data} = useQuery({
         queryKey:['return-nonreturnAsset',user?.email],
         queryFn:async()=>{
-            const {data} = await axiosSecure.get(`/returnable-nonreturnable/${user?.email}`)
+            const {data} = await axiosCommon.get(`/returnable-nonreturnable/${user?.email}`)
             return data
         }
     })

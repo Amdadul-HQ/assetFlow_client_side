@@ -1,14 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosCommon from "../../../Hooks/useAxiosCommon";
 
 const PedingReqHr = () => {
     const { user } = useAuth();
-    const axiosSecure = useAxiosSecure();
+    const axiosCommon = useAxiosCommon();
     const { data } = useQuery({
       queryKey: ["requestedasset", user?.email],
       queryFn: async () => {
-        const { data } = await axiosSecure.get(`/requestedasset/${user?.email}`);
+        const { data } = await axiosCommon.get(`/requestedasset/${user?.email}`);
         return data;
       },
     });

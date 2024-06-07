@@ -19,7 +19,7 @@ const MyAsset = () => {
   const numberofPages = Math.ceil(count / itemPerPage);
   const pages = [...Array(numberofPages).keys()];
   const { user } = useAuth();
-  const { data, refetch } = useQuery({
+  const { data, refetch,isLoading } = useQuery({
     queryKey: ["myasset", user?.email, search,status,count,type],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
@@ -67,6 +67,7 @@ const MyAsset = () => {
       setCurrentPage(currentPage + 1);
     }
   };
+  if(isLoading)return <div className='w-full min-h-[calc(100vh-330px)] flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <Helmet>

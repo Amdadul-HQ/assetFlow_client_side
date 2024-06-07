@@ -1,15 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useState } from "react";
+import useAxiosCommon from "../../../Hooks/useAxiosCommon";
 const LimitedStock = () => {
     const { user } = useAuth();
-    const axiosSecure = useAxiosSecure();
+    const axiosCommon = useAxiosCommon();
     const [product,setProduct] = useState([])
     const {data} = useQuery({
         queryKey:['assets',user?.email,product],
         queryFn:async() => {
-            const {data} = await axiosSecure.get(`/assets/${user?.email}`)
+            const {data} = await axiosCommon.get(`/assets/${user?.email}`)
             setProduct(data.filter(item => item.productQuantity <10 && item.productQuantity>0))
         }
     })

@@ -18,7 +18,7 @@ const AssetListPage = () => {
     const [itemPerPage,setItemPerPage] = useState(5)
     const numberofPages = Math.ceil(count  / itemPerPage)
     const pages = [...Array(numberofPages).keys()]
-    const {data,refetch} = useQuery({
+    const {data,refetch,isLoading} = useQuery({
       queryKey:['assets',user?.email,currentPage,itemPerPage,count,pages,search,quantity,type],
       queryFn:async() => {
           const {data} = await axiosSecure.get(`/assets/${user?.email}?search=${search}&page=${currentPage}&size=${itemPerPage}&type=${type}&quantity=${quantity}`)
@@ -88,7 +88,7 @@ const AssetListPage = () => {
       setCurrentPage(currentPage +1)
     }
   }
-
+  if(isLoading)return <div className='w-full min-h-[calc(100vh-330px)] flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <Helmet>

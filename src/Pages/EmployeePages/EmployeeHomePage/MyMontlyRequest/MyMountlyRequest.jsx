@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../../Hooks/useAuth";
-import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import useAxiosCommon from "../../../../Hooks/useAxiosCommon";
 
 const MyMountlyRequest = () => {
 
     const {user} = useAuth()
-    const axiosSecure = useAxiosSecure()
+    const axiosCommon = useAxiosCommon()
     const {data} = useQuery({
         queryKey:['monthrequest',user?.email],
         queryFn:async()=>{
-            const {data} = await axiosSecure.get(`/monthrequestasset/${user?.email}`)
+            const {data} = await axiosCommon.get(`/monthrequestasset/${user?.email}`)
             data.sort(
                 (a, b) => new Date(b.requestDate) - new Date(a.requestDate)
               )

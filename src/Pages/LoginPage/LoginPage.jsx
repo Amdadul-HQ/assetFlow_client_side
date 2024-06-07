@@ -20,8 +20,8 @@ const LoginPage = () => {
           role:'user',
           status:'Available'
         }
-        const {data} = await axiosCommon.put('/user',userDetails)
         navigate('/')
+        const {data} = await axiosCommon.put('/user',userDetails)
       })
       .catch((err) => {
         toast.error(err.message);

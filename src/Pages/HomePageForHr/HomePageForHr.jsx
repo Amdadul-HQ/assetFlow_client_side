@@ -12,7 +12,7 @@ const HomePageForHr = () => {
             <TopRqquestItems/>
             <LimitedStock/>
             <ReqofReturnandNonReturnAsset/>
-            {/* <MyEmployeeCardSection/> */}
+            <MyEmployeeCardSection/>
         </section>
     );
 };

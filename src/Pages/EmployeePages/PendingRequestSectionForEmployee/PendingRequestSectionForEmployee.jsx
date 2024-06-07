@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosCommon from "../../../Hooks/useAxiosCommon";
 
 const PendingRequestSectionForEmployee = () => {
     const {user} = useAuth()
-    const axiosSecure = useAxiosSecure()
+    const axiosCommon = useAxiosCommon()
     const {data} = useQuery({
         queryKey:['pendingasset',user?.email],
         queryFn:async()=>{
-            const {data} = await axiosSecure.get(`/pendingasset/${user?.email}`)
+            const {data} = await axiosCommon.get(`/pendingasset/${user?.email}`)
             return data;
         }
     })

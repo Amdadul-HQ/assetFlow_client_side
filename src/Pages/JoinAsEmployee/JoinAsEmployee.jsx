@@ -22,6 +22,7 @@ const JoinAsEmployee = () => {
           status:'Available'
         }
         const {data} = await axiosCommon.put('/user',userDetails)
+        navigate('/')
       })
       .catch((err) => {
         toast.error(err.message)

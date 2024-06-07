@@ -26,7 +26,7 @@ const RequestForAsset = () => {
     },
   });
   const hremail = employee?.hremail;
-  const { data: asset } = useQuery({
+  const { data: asset,isLoading } = useQuery({
     queryKey: ["assets", hremail,count,currentPage,itemPerPage,search,type,quantity],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/assets/${hremail}?search=${search}&page=${currentPage}&size=${itemPerPage}&type=${type}&quantity=${quantity}`);
@@ -76,6 +76,7 @@ const RequestForAsset = () => {
       setCurrentPage(currentPage + 1);
     }
   };
+  if(isLoading)return <div className='w-full min-h-[calc(100vh-330px)] flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <Helmet>

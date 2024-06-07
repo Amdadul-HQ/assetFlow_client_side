@@ -1,16 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useState } from "react";
+import useAxiosCommon from "../../../Hooks/useAxiosCommon";
 
 const TopRqquestItems = () => {
-    const axiosSecure = useAxiosSecure()
+    const axiosCommon = useAxiosCommon()
     const [sorted,setSorted] = useState([])
     const {user} = useAuth()
     const {data} = useQuery({
         queryKey:['assets',user?.email],
         queryFn:async() => {
-            const {data} = await axiosSecure.get(`/assets/${user?.email}`)
+            const {data} = await axiosCommon.get(`/assets/${user?.email}`)
             setSorted((data.sort((a,b)=> b.requestCount - a.requestCount)).slice(0,4).filter(item => item.requestCount>0))
             return data 
         }
