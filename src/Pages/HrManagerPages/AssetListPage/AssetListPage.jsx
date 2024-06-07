@@ -10,6 +10,8 @@ import useAssetCount from "../../../Hooks/useAssetCount";
 const AssetListPage = () => {
     const axiosSecure = useAxiosSecure()
     const [search, setSearch] = useState("");
+    const [quantity,setQuantity] = useState()
+    const [type,setType] = useState('')
     const {user} = useAuth()
     const [currentPage,setCurrentPage] = useState(0)
     const {count } = useAssetCount()
@@ -17,9 +19,9 @@ const AssetListPage = () => {
     const numberofPages = Math.ceil(count  / itemPerPage)
     const pages = [...Array(numberofPages).keys()]
     const {data,refetch} = useQuery({
-      queryKey:['assets',user?.email,currentPage,itemPerPage,count,pages,search],
+      queryKey:['assets',user?.email,currentPage,itemPerPage,count,pages,search,quantity,type],
       queryFn:async() => {
-          const {data} = await axiosSecure.get(`/assets/${user?.email}?search=${search}&page=${currentPage}&size=${itemPerPage}`)
+          const {data} = await axiosSecure.get(`/assets/${user?.email}?search=${search}&page=${currentPage}&size=${itemPerPage}&type=${type}&quantity=${quantity}`)
           return data 
         }
       })
@@ -95,7 +97,7 @@ const AssetListPage = () => {
         </title>
       </Helmet>
       <section className="container px-4 mx-auto pt-20">
-      <div className="flex items-center my-5 gap-x-5 justify-center">
+      <div className="lg:flex items-center my-5 gap-x-5 justify-center">
           <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
             <form onSubmit={handleSearch} className="flex flex-col lg:flex-row">
               <input
@@ -113,13 +115,15 @@ const AssetListPage = () => {
               </button>
             </form>
           </div>
-          <select className="select select-bordered  max-w-32 mt-8">
-            <option disabled value='default' >Filter By</option>
-            <option>Available</option>
-            <option>out-of-stock</option>
-            <option>Returnable</option>
-            <option>non-Returnable</option>
-            </select>
+          <div className="dropdown dropdown-hover mt-8">
+            <div tabIndex={0} role="button" className="btn m-1 bg-violet-500 hover:bg-violet-600 text-white">Filter By</div>
+            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li><button onClick={()=>setQuantity(1)}>Available</button></li>
+              <li><button onClick={()=>setQuantity(0)}>Out Of Stock</button></li>
+              <li><button onClick={()=> setType('returnable')}>Returnable</button></li>
+              <li><button onClick={()=> setType('non-returnable')}>non-Returnable</button></li>
+            </ul>
+          </div>
         </div>
         <div className="flex items-center gap-x-3">
           <h2 className="text-lg font-medium text-gray-800 dark:text-white">

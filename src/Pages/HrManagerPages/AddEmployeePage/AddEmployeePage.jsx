@@ -91,7 +91,7 @@ const AddEmployeePage = () => {
         </title>
       </Helmet>
       <section className="container px-4 mx-auto pt-20">
-        <div className="flex items-center justify-between">
+        <div className="lg:flex items-center justify-between">
           <div className="flex items-center gap-x-3">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
               Total{" "}
@@ -109,7 +109,7 @@ const AddEmployeePage = () => {
             <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
               {Hrdata?.teamMember} users
             </span>
-            <Link to='/payment' className="bg-violet-500 py-2 px-6 text-xl text-white font-semibold rounded-lg hover:bg-violet-600 transition-all duration-300">Increase Limit</Link>
+            <Link to='/payment' className="bg-violet-500 py-1 px-3 lg:py-2 lg:px-6 text-xl text-white font-semibold rounded-lg hover:bg-violet-600 transition-all duration-300">Increase Limit</Link>
           </div>
         </div>
 

@@ -34,7 +34,7 @@ const Navbar = () => {
           Asset<span className="text-violet-500">Flow</span>
         </h1>}
         <div
-          className={`text-white top-[72px] py-5 lg:rounded-none rounded-bl-lg px-5 fixed lg:static ${showmenu ? 'right-0 transition-all duration-700' : '-right-96 transition-all duration-700'} overflow-hidden text-right bg-black lg:flex lg:flex-row flex-col items-center lg:gap-x-10 text-lg font-medium`}
+          className={`text-white top-[72px] lg:rounded-none rounded-bl-lg px-5 fixed lg:static ${showmenu ? 'right-0 transition-all duration-700' : '-right-96 transition-all duration-700'} overflow-hidden text-right bg-black lg:flex lg:flex-row flex-col items-center lg:gap-x-10 text-lg font-medium`}
         >
           <ul className="flex lg:gap-x-10 lg:flex flex-col lg:flex-row">
             <NavLink
@@ -154,7 +154,7 @@ const Navbar = () => {
             
           </ul>
           {user && user ? (
-            <></>
+            <NavLink onClick={handleLogout}>Log out</NavLink>
           ) : (
             <NavLink
               className={({ isActive }) =>
@@ -166,7 +166,7 @@ const Navbar = () => {
             </NavLink>
           )}
           {
-            user && <div className="dropdown dropdown-end text-black">
+            user && <div className="dropdown dropdown-end z-50 text-black">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img alt="Tailwind CSS Navbar component" referrerPolicy="no-referrer" src={user?.photoURL}/>

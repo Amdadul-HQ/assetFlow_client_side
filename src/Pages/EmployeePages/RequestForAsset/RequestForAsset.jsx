@@ -84,7 +84,7 @@ const RequestForAsset = () => {
         </title>
       </Helmet>
       <section className="container px-4 mx-auto pt-20">
-      <div className="flex items-center my-5 gap-x-5 justify-center">
+      <div className="lg:flex items-center my-5 gap-x-5 justify-center">
           <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
             <form onSubmit={handleSearch} className="flex flex-col lg:flex-row">
               <input

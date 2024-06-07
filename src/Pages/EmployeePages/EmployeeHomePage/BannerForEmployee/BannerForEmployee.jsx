@@ -6,8 +6,8 @@ const BannerForEmployee = () => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
-          }} className="min-h-screen justify-center items-center mx-auto flex overflow-x-hidden">
-            <h1 className='text-6xl text-gray-100 font-bold backdrop-blur-md py-10 leading-[80px] px-4 text-center'>Get Your Company Asset <br /> By Asset<span className='text-violet-500'>Flow</span> </h1>
+          }} className="min-h-screen justify-center items-center w-full flex overflow-x-hidden">
+            <h1 className='lg:text-6xl text-4xl text-gray-100 font-bold backdrop-blur-md py-10 lg:leading-[80px] px-4 text-center'>Get Your Company Asset <br /> By Asset<span className='text-violet-500'>Flow</span> </h1>
         </section>
     );
 };

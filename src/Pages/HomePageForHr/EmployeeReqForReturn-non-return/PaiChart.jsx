@@ -25,7 +25,7 @@ const chartData = data?.map(item => {
     return { name:item._id,value:item.count }
 })
     return (
-        <div className='w-full flex justify-center'>
+        <div>
             <PieChart  width={400} height={400}>
           <Pie
             data={chartData}

@@ -20,7 +20,7 @@ const TopRqquestItems = () => {
       <section className="container px-4 mx-auto pt-20">
             <h1 className="text-5xl text-center mb-5 font-bold">Top Most Request</h1>
         <div className="flex flex-col mt-6">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="overflow-x-auto">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

@@ -4,11 +4,13 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckOutForm from "../Form/CheckOutForm";
 import useAuth from "../../Hooks/useAuth";
+import useHrManager from "../../Hooks/useHrManager";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_KEY);
 
 const PaymentSection = () => {
   const [info, setInfo] = useState({});
   const {user} = useAuth()
+  const [isHr] = useHrManager()
   const packageDetails = [
     {
       id: 1,
@@ -34,7 +36,7 @@ const PaymentSection = () => {
     <div>
       <div className="text-center">
         <h1 className="text-5xl font-bold">Pricing Plan</h1>
-        <p className="text-xl max-w-[800px] mt-3 mx-auto">
+        <p className="lg:text-xl text-lg max-w-[800px] mt-3 mx-auto">
           AssetFlow caters to businesses of all sizes, offering flexible
           subscription plans to fit your specific requirements.
         </p>
@@ -59,7 +61,7 @@ const PaymentSection = () => {
                   Maximum {item.employeeNumber} employees
                 </p>
 
-                <button disabled={!user}
+                <button disabled={!user && !isHr}
                   onClick={() => {
                     setInfo(item);
                     document.getElementById("my_modal_3").showModal();

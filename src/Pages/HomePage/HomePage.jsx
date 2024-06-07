@@ -7,10 +7,12 @@ import useHrManager from "../../Hooks/useHrManager";
 import ContactHr from "../ConteactHrPage/ContactHr";
 import EmployeeHomePage from "../EmployeePages/EmployeeHomePage/EmployeeHomePage";
 import HomePageForHr from "../HomePageForHr/HomePageForHr";
+import useAuth from "../../Hooks/useAuth";
 
 const HomePage = () => {
     const [isHr] = useHrManager()
     const [isEmployee] = useEmployee()
+    const {user} = useAuth()
     return (
         <main>
             <Helmet>
@@ -19,11 +21,11 @@ const HomePage = () => {
                 </title>
             </Helmet>
             {!isHr && !isEmployee ? <Banner/> : <></>}
-            {/* {isEmployee && <EmployeeHomePage/>} */}
-            {/* {isHr && <HomePageForHr/>} */}
+            {isEmployee && <EmployeeHomePage/>}
+            {isHr && <HomePageForHr/>}
             {!isHr && !isEmployee ? <About/> : <></>}
             {/* {!isEmployee && !isHr ? <ContactHr/> : ''} */}
-            {/* {isEmployee || <Packages/>} */}
+            <Packages/>
         </main>
     );
 };

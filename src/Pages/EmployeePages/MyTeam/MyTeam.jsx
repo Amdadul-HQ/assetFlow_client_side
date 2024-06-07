@@ -94,7 +94,7 @@ const MyTeam = () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                        <tbody className="bg-white divide-y min-h-[calc(100vh-330px)] divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                             {
                                 data && data.map(item => <tr key={item._id}>
                                     <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">

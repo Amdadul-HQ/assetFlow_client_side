@@ -73,7 +73,7 @@ const MyAsset = () => {
         <title>My Assets</title>
       </Helmet>
       <section className="container px-4 mx-auto pt-20">
-        <div className="flex items-center my-5 gap-x-5 justify-center">
+        <div className="lg:flex items-center my-5 gap-x-5 justify-center">
           <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
             <form onSubmit={handleSearch} className="flex flex-col lg:flex-row">
               <input
@@ -188,7 +188,7 @@ const MyAsset = () => {
                       <th className="text-left pl-14">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                  <tbody className="bg-white divide-y min-h-[calc(100vh-330px)] divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                     {data &&
                       data.map((item) => (
                         <tr key={item._id}>
