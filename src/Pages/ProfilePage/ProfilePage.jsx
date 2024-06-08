@@ -1,11 +1,12 @@
-import { useState } from "react";
+
 import useAuth from "../../Hooks/useAuth";
 import { imageUpload } from "../../Utility";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-    const {user,updataNamePhoto} = useAuth()
-    const [showUpdate,setShowUpdate] = useState(false)
+    const {user,updataNamePhoto,setLoading} = useAuth()
+    const navigate = useNavigate()
     const handleUptate = async e=>{
         e.preventDefault()
         const form = e.target;
@@ -16,7 +17,8 @@ const ProfilePage = () => {
             updataNamePhoto(name,imageUrl)
             .then(()=>{
                 toast.success('Profile Updated Successful')
-                setShowUpdate(false)
+                navigate('/profile')
+                setLoading(false)
             })
             .catch(err=>{
                 console.log(err.message);
@@ -39,8 +41,7 @@ const ProfilePage = () => {
                 </div>
             </div>
             <div>
-                {
-                    showUpdate && <form className="w-full max-w-md">
+                 <form onSubmit={handleUptate} className="w-full max-w-md">
                     
                     
                     <div className="flex items-center justify-center mt-6">
@@ -68,15 +69,10 @@ const ProfilePage = () => {
         
                         <input id="dropzone-file" name="photo" type="file"  />
                     </label>
+                         <div className="flex justify-center">
+                        <button type="submit"  className="bg-violet-500 hover:bg-violet-600 transition-all duration-300 py-2 px-7 text-white text-xl font-medium mt-4">Update Profile</button>
+                        </div> 
                 </form>
-                }
-                { showUpdate ?
-                     <div className="flex justify-center">
-                    <button onClick={()=> handleUptate} className="bg-violet-500 hover:bg-violet-600 transition-all duration-300 py-2 px-7 text-white text-xl font-medium mt-4">Update Profile</button>
-                    </div> : <div className="flex justify-center">
-                    <button onClick={()=> setShowUpdate(true)} className="bg-violet-500 hover:bg-violet-600 transition-all duration-300 py-2 px-7 text-white text-xl font-medium mt-4">Update Profile</button>
-                    </div>
-                }
             <div>
             
             </div>

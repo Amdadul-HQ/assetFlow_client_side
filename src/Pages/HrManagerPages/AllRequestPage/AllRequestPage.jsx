@@ -132,7 +132,7 @@ if(isLoading)return <div className='w-full min-h-[calc(100vh-330px)] flex justif
                       >
                         Email of Requester
                       </th>
-                      <th>Name of Requester</th>
+                      <th>Note</th>
                       <th
                         scope="col"
                         className=" py-3.5 text-left rtl:text-right dark:text-gray-400"
@@ -198,7 +198,7 @@ if(isLoading)return <div className='w-full min-h-[calc(100vh-330px)] flex justif
                             {item.email}
                           </td>
                           <td className="px-4 py-4 text-sm whitespace-nowrap">
-                            {item.name}
+                            {item.note}
                           </td>
                           <td className="py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                             <div className="inline-flex uppercase font-medium items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">

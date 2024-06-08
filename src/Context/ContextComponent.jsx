@@ -77,7 +77,8 @@ const ContextComponent = ({ children }) => {
     signInGoogle,
     logOut,
     updataNamePhoto,
-    loading
+    loading,
+    setLoading
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

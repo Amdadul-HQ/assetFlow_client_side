@@ -9,7 +9,7 @@ const Print = ({item}) => {
         <Text  fixed>
         ~ Product Approval Details ~
       </Text>
-      {/* <Text >Company Name: {item?.companyName}</Text> */}
+      <Text >Company Name: {item?.companyName}</Text>
       <Text>Product Name: {item?.productName}</Text>
       <Text>Product Type: {item?.productType}</Text>
         <Text >

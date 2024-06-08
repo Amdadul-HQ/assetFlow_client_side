@@ -5,15 +5,18 @@ import { GoGitPullRequest } from "react-icons/go";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
 import useAssetCountForEmployee from "../../../Hooks/useAssetCountForEmployee";
 
 const RequestForAsset = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
-  const [quantity,setQuantity] = useState()
-  const [type,setType] = useState('')
-  const {count} = useAssetCountForEmployee();
+  const [quantity, setQuantity] = useState();
+  const [type, setType] = useState("");
+  const [item,setItem] = useState({})
+  const { count } = useAssetCountForEmployee();
   const [currentPage, setCurrentPage] = useState(0);
   const [itemPerPage, setItemPerPage] = useState(5);
   const numberofPages = Math.ceil(count / itemPerPage);
@@ -26,24 +29,36 @@ const RequestForAsset = () => {
     },
   });
   const hremail = employee?.hremail;
-  const { data: asset,isLoading } = useQuery({
-    queryKey: ["assets", hremail,count,currentPage,itemPerPage,search,type,quantity],
+  const { data: asset, isLoading } = useQuery({
+    queryKey: [
+      "assets",
+      hremail,
+      count,
+      currentPage,
+      itemPerPage,
+      search,
+      type,
+      quantity,
+    ],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/assets/${hremail}?search=${search}&page=${currentPage}&size=${itemPerPage}&type=${type}&quantity=${quantity}`);
+      const { data } = await axiosSecure.get(
+        `/assets/${hremail}?search=${search}&page=${currentPage}&size=${itemPerPage}&type=${type}&quantity=${quantity}`
+      );
       return data;
     },
   });
 
-
-  const handleAssetRequest = async (item) => {
+  const handleAssetRequest = async (e) => {
+    e.preventDefault();
+    const note = e.target.note.value;
     const requestAsset = {
-      key:item?._id,
+      key: item?._id,
       productName: item?.productName,
       productType: item?.productType,
       productQuantity: item?.productQuantity,
       productImageUrl: item?.productImageUrl,
       companyName: item?.companyName,
-      companyLogoUrl:item?.companyLogoUrl,
+      companyLogoUrl: item?.companyLogoUrl,
       assetHolder: item?.assetHolder,
       addedDate: item?.addedDate,
       requestDate: new Date(),
@@ -52,10 +67,11 @@ const RequestForAsset = () => {
       email: user?.email,
       name: user?.displayName,
       status: "Requested",
+      note:note,
     };
     const { data } = await axiosSecure.post("/requestasset", requestAsset);
-      toast.success("Request Successful");
-    
+    toast.success("Request Successful");
+    setOpen(false)
   };
   const handleSearch = (e) => {
     e.preventDefault();
@@ -76,16 +92,24 @@ const RequestForAsset = () => {
       setCurrentPage(currentPage + 1);
     }
   };
-  if(isLoading)return <div className='w-full min-h-[calc(100vh-330px)] flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>
+
+  const [open, setOpen] = useState(false);
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+  if (isLoading)
+    return (
+      <div className="w-full min-h-[calc(100vh-330px)] flex justify-center items-center">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
   return (
     <section className="min-h-[calc(100vh-330px)]">
       <Helmet>
-        <title>
-          Request For Assets
-        </title>
+        <title>Request For Assets</title>
       </Helmet>
       <section className="container px-4 mx-auto pt-20">
-      <div className="lg:flex items-center my-5 gap-x-5 justify-center">
+        <div className="lg:flex items-center my-5 gap-x-5 justify-center">
           <div className="w-full mt-8 bg-transparent border rounded-md lg:max-w-sm dark:border-gray-700 focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 dark:focus-within:border-blue-400 focus-within:ring-opacity-40">
             <form onSubmit={handleSearch} className="flex flex-col lg:flex-row">
               <input
@@ -104,12 +128,33 @@ const RequestForAsset = () => {
             </form>
           </div>
           <div className="dropdown dropdown-hover mt-8">
-            <div tabIndex={0} role="button" className="btn m-1 bg-violet-500 hover:bg-violet-600 text-white">Filter By</div>
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-              <li><button onClick={()=>setQuantity(1)}>Available</button></li>
-              <li><button onClick={()=>setQuantity(0)}>Out Of Stock</button></li>
-              <li><button onClick={()=> setType('returnable')}>Returnable</button></li>
-              <li><button onClick={()=> setType('non-returnable')}>non-Returnable</button></li>
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn m-1 bg-violet-500 hover:bg-violet-600 text-white"
+            >
+              Filter By
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <button onClick={() => setQuantity(1)}>Available</button>
+              </li>
+              <li>
+                <button onClick={() => setQuantity(0)}>Out Of Stock</button>
+              </li>
+              <li>
+                <button onClick={() => setType("returnable")}>
+                  Returnable
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setType("non-returnable")}>
+                  non-Returnable
+                </button>
+              </li>
             </ul>
           </div>
         </div>
@@ -241,15 +286,52 @@ const RequestForAsset = () => {
                           <td className="px-4 py-4 text-sm whitespace-nowrap">
                             <div className="flex items-center gap-x-2">
                               <button
-                                disabled={item.productQuantity===0}
+                                disabled={item.productQuantity === 0}
                                 onClick={() => {
-                                  
-                                    handleAssetRequest(item)
+                                  onOpenModal();
+                                  setItem(item)
+                                  // handleAssetRequest(item)
                                 }}
                                 className="px-3 cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
                               >
                                 Request <GoGitPullRequest />
                               </button>
+                            </div>
+                            <div>
+                              <Modal
+                                open={open}
+                                onClose={onCloseModal}
+                                center
+                                styles={{
+                                  modal: {
+                                    maxWidth: "800px",
+                                    width: "100%",
+                                  },
+                                }}
+                              >
+                                <h2 className="text-xl font-medium ">
+                                  Additional Note:
+                                </h2>
+                                <form onSubmit={handleAssetRequest}>
+                                  <textarea
+                                    required
+                                    name="note"
+                                    className="textarea w-full mt-2 textarea-bordered"
+                                    placeholder="Add Note"
+                                  ></textarea>
+                                  <div className="text-center mt-2 mx-auto">
+                                    <button
+                                      type="submit"
+                                      // onClick={() => {
+                                      //   handleAssetRequest(item)
+                                      // }}
+                                      className="px-3 cursor-pointer py-1 flex gap-x-2 items-center  text-base text-indigo-500 rounded-full dark:bg-gray-800 bg-indigo-100/60"
+                                    >
+                                      Request <GoGitPullRequest />
+                                    </button>
+                                  </div>
+                                </form>
+                              </Modal>
                             </div>
                           </td>
                         </tr>
@@ -288,7 +370,9 @@ const RequestForAsset = () => {
             {pages &&
               pages.map((page, inx) => (
                 <button
-                  onClick={() => setCurrentPage(page)}
+                  onClick={() => {
+                    setCurrentPage(page);
+                  }}
                   key={inx}
                   className={`px-2 py-1 text-sm ${
                     page == currentPage
