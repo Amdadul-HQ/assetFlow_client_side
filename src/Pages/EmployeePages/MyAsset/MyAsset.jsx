@@ -20,7 +20,7 @@ const MyAsset = () => {
   const pages = [...Array(numberofPages).keys()];
   const { user } = useAuth();
   const { data, refetch,isLoading } = useQuery({
-    queryKey: ["myasset", user?.email, search,status,count,type],
+    queryKey: ["myasset", user?.email, search,status,count,type,itemPerPage,currentPage],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
         `/assetsofemploye/${user?.email}?search=${search}&page=${currentPage}&size=${itemPerPage}&status=${status}&type=${type}`
