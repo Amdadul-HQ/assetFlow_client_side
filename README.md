@@ -1,77 +1,58 @@
-*** Welcome to the Asset Management System! ***
+# Welcome to the Asset Management System!
 
-*This web application allows businesses to manage their assets and products efficiently. HR Managers can track how employees are using company assets, categorized as returnable (laptops, keyboards) or non-returnable (pens, paper).
+This web application allows businesses to manage their assets and products efficiently. HR Managers can track how employees are using company assets, categorized as returnable (laptops, keyboards) or non-returnable (pens, paper).
 
-*** Key Features: ***
+## Key Features:
 
-* User Roles: Employee and HR Manager with separate functionalities.
+- **User Roles**: Employee and HR Manager with separate functionalities.
+- **Employee Routes**: View pending and monthly asset requests, request new assets, manage their team.
+- **HR Manager Routes**: Manage asset lists, requests, employees, add new assets, view team members, and manage team size through packages.
+- **Responsive Design**: Optimized for mobile, tablet, and desktop.
+- **Secure Authentication**: JWT-based login with email/password and social login options.
+- **Search and Filter**: Filter assets by type, request status, and availability.
+- **CRUD Operations**: Create, Read, Update, and Delete assets and employee information.
+- **Notifications**: Sweet alerts/toasts for successful operations and authentication.
+- **Pagination**: View assets and requests in paginated lists.
 
-* Employee Routes: View pending and monthly asset requests, request new assets, manage their team .
+## Demo:
 
-* HR Manager Routes: Manage asset lists, requests, employees, add new assets, view team members, and manage team size through packages.
+Live Site URL: [AssetFlow](https://assetflow-2ac74.web.app)
 
-* Responsive Design: Optimized for mobile, tablet, and desktop.
+## Uses Technology:
 
-* Secure Authentication: JWT-based login with email/password and social login options.
+**Front-end**:
+- React.js
+- HTML & CSS
+- Tailwind CSS
+- Daisy UI
+- React Helmet
+- Tanstack Query (GET methods)
 
-* Search and Filter: Filter assets by type, request status, and availability.
+**Back-end**:
+- MongoDB
+- Node.js
+- Express.js
+- JWT (JSON Web Token)
+- Firebase (optional)
 
-* CRUD Operations: Create, Read, Update, and Delete assets and employee information.
+## Development Setup:
 
-* Notifications: Sweet alerts/toasts for successful operations and authentication.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/programming-hero-web-course1/b9a12-client-side-Amdadul-HQ.git
 
-* Pagination: View assets and requests in paginated lists
+   npm install
+   
+REACT_APP_API_URL=your_backend_API_URL
 
-**Demo:**
+REACT_APP_MONGO_URI=your_MongoDB_connection_string
 
-*Live Site URL:  https://assetflow-2ac74.web.app
+REACT_APP_FIREBASE_CONFIG=your_Firebase_configuration
 
-**Uses Technology**
-
-**Front-end:**
-
-* React.js: A powerful JavaScript library for building dynamic user interfaces. It excels at managing complex components and state changes.
-
-* HTML & CSS: The fundamental building blocks of web pages. HTML provides the structure, while CSS styles the content and layout.
-
-* Tailwind CSS: A utility-first CSS framework offering a vast collection of pre-built classes for rapid UI development.
-
-* Daisy UI: A component-based UI library built on top of Tailwind CSS. It provides ready-made components like buttons, forms, and alerts for a clean and consistent look.
-
-* React Helmet: A library that lets you manage document head elements (title, meta tags, etc.) from your React components. This ensures dynamic updates to your page title and metadata.
-
-* Tanstack Query (GET methods) :  Implement Tanstack Query for all data fetching using GET requests.
-
-**Back-end:**
-
-* MongoDB: A NoSQL database that offers flexible data storage in document format. Perfect for managing assets and user information.
-
-* Node.js: A JavaScript runtime environment that allows you to run JavaScript code outside a web browser. This enables server-side scripting and APIs.
-
-* Express.js: A web application framework for Node.js that simplifies server creation and routing. It handles incoming requests and sends responses.
-
-* JWT (JSON Web Token): A popular authentication mechanism for secure user sessions. JWTs encode user data and a signature, ensuring secure communication between client and server.
-
-* Firebase (optional): A Google-backed platform offering various services like authentication, databases, and hosting. You can use it for user authentication and potentially other functionalities.
-
-Development Setup:
-
-Clone the repository: git clone https://github.com/programming-hero-web-course1/b9a12-client-side-Amdadul-HQ.git
-
-Install dependencies: npm install
-
-Create a .env file in the project root and set environment variables for:
-
-REACT_APP_API_URL: Your backend API URL.
-REACT_APP_MONGO_URI: MongoDB connection string.
-REACT_APP_FIREBASE_CONFIG: Firebase configuration (use placeholder values during development).
-
-Running the Application:
-
-Start the development server: npm start
-
+npm start
 
 Contributing:
+Front-end: [Amdadul_HQ]
+Back-end: [Amdadul_HQ]
 
-[FRONT-END] : [AMDADUL_HQ]
-[BACK-END] : [AMDADUL_HQ]
+
