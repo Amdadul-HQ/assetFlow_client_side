@@ -1,6 +1,6 @@
 # Welcome to the Asset Management System!
 
-This web application allows businesses to manage their assets and products efficiently. HR Managers can track how employees are using company assets, categorized as returnable (laptops, keyboards) or non-returnable (pens, paper)
+This web application allows businesses to manage their assets and products efficiently. HR Managers can track how employees are using company assets, categorized as returnable (laptops, keyboards) or non-returnable (pens, paper).
 
 ## Key Features:
 
